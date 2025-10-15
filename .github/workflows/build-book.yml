@@ -2,7 +2,7 @@ name: Build Jupyter Book
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
 
 permissions:
   contents: write
@@ -20,6 +20,7 @@ jobs:
         run: |
           pip install -U pip
           pip install jupyter-book
+          pip install sympy
       - name: Build Jupyter Book
         run: jupyter-book build .
       - name: Deploy to GitHub Pages
