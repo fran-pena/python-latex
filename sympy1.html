@@ -428,42 +428,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/sympy/parsing/latex/_parse_latex_antlr.py:23: UserWarning: antlr4.error.ErrorListener module is not installed
-  ErrorListener = import_module(&#39;antlr4.error.ErrorListener&#39;,
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">latex_str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\frac{1 + \sqrt</span><span class="si">{a}</span><span class="s2">}</span><span class="si">{b}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># parseamos</span>
-<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">expr</span> <span class="o">=</span> <span class="n">parse_latex</span><span class="p">(</span><span class="n">latex_str</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expresión SymPy:&quot;</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="c1"># -&gt; debería imprimir algo como (sqrt(a) + 1)/b</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> 
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># Ahora podemos hacer operaciones simbólicas:</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="c1"># por ejemplo, derivar respecto a a</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/sympy/parsing/latex/__init__.py:199,</span> in <span class="ni">parse_latex</span><span class="nt">(s, strict, backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span>     <span class="n">_latex</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span>         <span class="s1">&#39;sympy.parsing.latex._parse_latex_antlr&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>         <span class="n">import_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fromlist&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]})</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="k">if</span> <span class="n">_latex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">199</span>         <span class="k">return</span> <span class="n">_latex</span><span class="o">.</span><span class="n">parse_latex</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">strict</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">200</span> <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;lark&quot;</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">201</span>     <span class="k">return</span> <span class="n">parse_latex_lark</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/sympy/parsing/latex/_parse_latex_antlr.py:66,</span> in <span class="ni">parse_latex</span><span class="nt">(sympy, strict)</span>
-<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="n">antlr4</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="s1">&#39;antlr4&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">[</span><span class="n">antlr4</span><span class="p">,</span> <span class="n">MathErrorListener</span><span class="p">]</span> <span class="ow">or</span> \
-<span class="g g-Whitespace">     </span><span class="mi">65</span>         <span class="ow">not</span> <span class="n">version</span><span class="p">(</span><span class="s1">&#39;antlr4-python3-runtime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;4.11&#39;</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">66</span>     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;LaTeX parsing requires the antlr4 Python package,&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span>                       <span class="s2">&quot; provided by pip (antlr4-python3-runtime) or&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span>                       <span class="s2">&quot; conda (antlr-python-runtime), version 4.11&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">70</span> <span class="n">sympy</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="n">matherror</span> <span class="o">=</span> <span class="n">MathErrorListener</span><span class="p">(</span><span class="n">sympy</span><span class="p">)</span>
-
-<span class="ne">ImportError</span>: LaTeX parsing requires the antlr4 Python package, provided by pip (antlr4-python3-runtime) or conda (antlr-python-runtime), version 4.11
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Expresión SymPy: (sqrt(a) + 1)/b
+derivada ∂/∂a: 1/(2*sqrt(a)*b)
+Valor numérico: 1.618033988749895
 </pre></div>
 </div>
 </div>
