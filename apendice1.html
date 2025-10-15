@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>python-latex &#8212; python-latex</title>
+    <title>APÉNDICE I: Instrucciones para desarrolladores &#8212; python-latex</title>
   
   
   
@@ -57,9 +57,10 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'apendice1';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Ejemplo de ejecución de SymPy" href="sympy1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -122,8 +123,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -179,7 +178,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="celdas.html">Ejemplo de ejecucion de celdas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="celdas1.html">Ejemplo de ejecución de celdas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="celdas2.html">Resultados del ejemplo de ejecución de celdas</a></li>
@@ -189,7 +188,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sympy1.html">Ejemplo de ejecución de SymPy</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="apendice1.html">APÉNDICE I: Instrucciones para desarrolladores</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">APÉNDICE I: Instrucciones para desarrolladores</a></li>
 </ul>
 
     </div>
@@ -261,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/fran-pena/python-latex/issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/fran-pena/python-latex/issues/new?title=Issue%20on%20page%20%2Fapendice1.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +290,7 @@
       
       
       
-      <li><a href="_sources/README.md" target="_blank"
+      <li><a href="_sources/apendice1.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -362,7 +361,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -373,11 +374,25 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>python-latex</h1>
+    <h1>APÉNDICE I: Instrucciones para desarrolladores</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-del-respositorio-en-github">Creación del respositorio en github</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-local">Modificaciones en local</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-del-html-en-local">Compilación del HTML en local</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-en-la-nube">Compilacion en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -387,8 +402,126 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="python-latex">
-<h1>python-latex<a class="headerlink" href="#python-latex" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="apendice-i-instrucciones-para-desarrolladores">
+<h1>APÉNDICE I: Instrucciones para desarrolladores<a class="headerlink" href="#apendice-i-instrucciones-para-desarrolladores" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Crear cuenta en <a class="reference external" href="http://github.com">github.com</a></p></li>
+</ul>
+<section id="creacion-del-respositorio-en-github">
+<h2>Creación del respositorio en github<a class="headerlink" href="#creacion-del-respositorio-en-github" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Crear nuevo proyecto: pithon-latex
+Public
+Add README
+Add .gitignore, Python
+Add license, GPL3</p></li>
+<li><p>Crear rama dev, en el despegable de ramas.</p></li>
+</ul>
+</section>
+<section id="modificaciones-en-local">
+<h2>Modificaciones en local<a class="headerlink" href="#modificaciones-en-local" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Clonar repositorio: Code, Copy URL</p></li>
+<li><p>Instalar Git: <a class="reference external" href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p></li>
+<li><p>Abrir CMD, ir a la carpeta de proyecto: git clone <a class="github reference external" href="https://github.com/fran-pena/python-latex.git">fran-pena/python-latex.git</a></p></li>
+<li><p>Cambiar a la rama dev, git checkout dev</p></li>
+<li><p>git pull, modificar código</p></li>
+<li><p>Actualizar repositorio en la nube: git status, git add, git commit, git push</p></li>
+</ul>
+</section>
+<section id="compilacion-del-html-en-local">
+<h2>Compilación del HTML en local<a class="headerlink" href="#compilacion-del-html-en-local" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Instalar Python: <a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p></li>
+<li><p>Crear entorno venv, python -m venv jupyter_venv</p></li>
+<li><p>Entrar en el entorno, jupyter_venv/Scripts/activate</p></li>
+<li><p>Instalar paquetes de jupyter-book</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">book</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">cache</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">plotly</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">ipywidgets</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span>
+   <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">antlr4</span><span class="o">-</span><span class="n">python3</span><span class="o">-</span><span class="n">runtime</span><span class="o">==</span><span class="mf">4.11</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>En el proyecto, crear el fichero .vscode/settings.json con el contenido:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;python.defaultInterpreterPath&quot;</span><span class="p">:</span> <span class="s2">&quot;C:/Users/&lt;usuario&gt;/jupyter_venv/Scripts/python.exe&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;python.terminal.activateEnvironment&quot;</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.</p>
+</section>
+<section id="modificaciones-en-la-nube">
+<h2>Modificaciones en la nube<a class="headerlink" href="#modificaciones-en-la-nube" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Ir a <a class="reference external" href="https://colab.research.google.com/">https://colab.research.google.com/</a></p></li>
+<li><p>En Abrir cuaderno - GitHub, escribir: nombre de usuario de Github, repositorio python-latex y rama dev.</p></li>
+<li><p>Hacer modificaciones en el fichero IPYNB</p></li>
+<li><p>Ir a Archivo - Guardar (no pulsar en Gist!), dar permisos para acceder a la cuenta de GitHub.</p></li>
+</ul>
+<p>Las personas que no pertenecen al proyecto, aún pueden observar los IPYNB de un proyecto público obteniendo su dirección URL y sustituyendo el inicio <a class="github reference external" href="https://github.com/"></a> por <a class="reference external" href="https://colab.research.google.com/github/">https://colab.research.google.com/github/</a>. Por ejemplo, sustituyendo:</p>
+<p><a class="github reference external" href="https://github.com/fran-pena/python-latex/blob/dev/Parte1.ipynb">fran-pena/python-latex</a></p>
+<p>por</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/fran-pena/python-latex/blob/dev/Parte1.ipynb">https://colab.research.google.com/github/fran-pena/python-latex/blob/dev/Parte1.ipynb</a></p>
+</section>
+<section id="compilacion-en-la-nube">
+<h2>Compilacion en la nube<a class="headerlink" href="#compilacion-en-la-nube" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Crear en el repositorio el fichero .github/workflows/build-book.yml. Las partes principales son:</p>
+<ul>
+<li><p>Indicación de la rama que desencadena la compilación del HTML (cambiar temporalmente a dev para las pruebas)</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">on</span><span class="p">:</span>
+  <span class="n">push</span><span class="p">:</span>
+    <span class="n">branches</span><span class="p">:</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Atención:</strong> GitHub Actions solo permite 2.000 minutos al mes; cada compilación es un minuto. Para evitarlas, volver a compilación desde main.</p>
+<ul class="simple">
+<li><p>Indicación de los paquetes Python a instalar:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">:</span> <span class="o">|</span>
+  <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pip</span>
+  <span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">book</span>
+  <span class="n">pip</span> <span class="n">install</span> <span class="n">sympy</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Modificar algún IPYNB de la rama dev con Google Colab.</p></li>
+<li><p>La primera vez, se debe comprobar que se ha creado la rama gh-pages.</p></li>
+<li><p>Tras la creación autom´tica de la rama gh-pages, ir a Settings - Pages - Build and Depolyment - Source, escoger Deploy from a branch y escoger gh-pages.</p></li>
+<li><p>Ir al menú (superior) Actions - All workflows. Se listan todas las compilaciones generadas. Al entrar en cada una se puede ver si ha habido errores.</p></li>
+</ul>
+</section>
+<section id="lectura-del-html-en-la-nube">
+<h2>Lectura del HTML en la nube<a class="headerlink" href="#lectura-del-html-en-la-nube" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Si la compilación fue existosa, el resultado se puede ver en</p></li>
+</ul>
+<p><a class="reference external" href="https://fran-pena.github.io/python-latex/intro.html">https://fran-pena.github.io/python-latex/intro.html</a></p>
+</section>
+<section id="paso-de-los-cambios-a-la-rama-main">
+<h2>Paso de los cambios a la rama main<a class="headerlink" href="#paso-de-los-cambios-a-la-rama-main" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Tras validar los cambios de dev, en GitHub ir al menú (superior) Pull requests</p></li>
+<li><p>Escoger New pull request</p></li>
+<li><p>En base selecciona main</p></li>
+<li><p>En compare selecciona dev</p></li>
+<li><p>Se muestran los cambios entre dev y main. Si todo está correcto, pulsar Create pull request</p></li>
+<li><p>Se añade un mensaje de descripción (opcional) y luego pulsa Merge pull request</p></li>
+<li><p>Si no hay conflictos,  confirma con Confirm merge.</p></li>
+<li><p>Si la compilación está ligada a la rama main, en Actions se observará un nuevo workflow que actualizará el HTML.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -421,12 +554,42 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="sympy1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ejemplo de ejecución de SymPy</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creacion-del-respositorio-en-github">Creación del respositorio en github</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-local">Modificaciones en local</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-del-html-en-local">Compilación del HTML en local</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-en-la-nube">Compilacion en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -386,7 +386,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-en-la-nube">Compilacion en la nube</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
 </ul>
             </nav>
         </div>
@@ -432,7 +431,7 @@ Add license, GPL3</p></li>
 <li><p>Crear entorno venv, python -m venv jupyter_venv</p></li>
 <li><p>Entrar en el entorno, jupyter_venv/Scripts/activate</p></li>
 <li><p>Instalar paquetes de jupyter-book
-python -m pip install jupyter-book
+python -m pip install jupyter-book[all]
 python -m pip install jupyter-cache
 python -m pip install plotly
 python -m pip install ipywidgets
@@ -491,19 +490,6 @@ python -m pip install pandas</p></li>
 <li><p>Si la compilación fue existosa, el resultado se puede ver en</p></li>
 </ul>
 <p><a class="reference external" href="https://fran-pena.github.io/python-latex/intro.html">https://fran-pena.github.io/python-latex/intro.html</a></p>
-</section>
-<section id="paso-de-los-cambios-a-la-rama-main">
-<h2>Paso de los cambios a la rama main<a class="headerlink" href="#paso-de-los-cambios-a-la-rama-main" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Tras validar los cambios de dev, en GitHub ir al menú (superior) Pull requests</p></li>
-<li><p>Escoger New pull request</p></li>
-<li><p>En base selecciona main</p></li>
-<li><p>En compare selecciona dev</p></li>
-<li><p>Se muestran los cambios entre dev y main. Si todo está correcto, pulsar Create pull request</p></li>
-<li><p>Se añade un mensaje de descripción (opcional) y luego pulsa Merge pull request</p></li>
-<li><p>Si no hay conflictos,  confirma con Confirm merge.</p></li>
-<li><p>Si la compilación está ligada a la rama main, en Actions se observará un nuevo workflow que actualizará el HTML.</p></li>
-</ul>
 </section>
 </section>
 
@@ -568,7 +554,6 @@ python -m pip install pandas</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compilacion-en-la-nube">Compilacion en la nube</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
 </ul>
   </nav></div>
 

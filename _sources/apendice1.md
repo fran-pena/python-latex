@@ -12,7 +12,7 @@ kernelspec:
   name: python3
 ---
 
-# APÉNDICE I: Instrucciones para trabajar con Python-LaTeX
+# APÉNDICE I: Instrucciones para desarrolladores
 - Crear cuenta en github.com
 
 ## Creación del respositorio en github
@@ -36,13 +36,24 @@ kernelspec:
 - Crear entorno venv, python -m venv jupyter_venv
 - Entrar en el entorno, jupyter_venv/Scripts/activate
 - Instalar paquetes de jupyter-book
-   python -m pip install jupyter-book[all]
+```
+   python -m pip install jupyter-book
    python -m pip install jupyter-cache
    python -m pip install plotly
    python -m pip install ipywidgets
    python -m pip install matplotlib
    python -m pip install numpy
    python -m pip install pandas
+   python -m pip install antlr4-python3-runtime==4.11
+```   
+- En el proyecto, crear el fichero .vscode/settings.json con el contenido:
+```
+{
+    "python.defaultInterpreterPath": "C:/Users/<usuario>/jupyter_venv/Scripts/python.exe",
+    "python.terminal.activateEnvironment": true
+}
+```
+donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.
 
 ## Modificaciones en la nube
 - Ir a https://colab.research.google.com/
@@ -85,3 +96,13 @@ run: |
 - Si la compilación fue existosa, el resultado se puede ver en
 
 https://fran-pena.github.io/python-latex/intro.html
+
+## Paso de los cambios a la rama main
+- Tras validar los cambios de dev, en GitHub ir al menú (superior) Pull requests
+- Escoger New pull request
+- En base selecciona main
+- En compare selecciona dev
+- Se muestran los cambios entre dev y main. Si todo está correcto, pulsar Create pull request
+- Se añade un mensaje de descripción (opcional) y luego pulsa Merge pull request
+- Si no hay conflictos,  confirma con Confirm merge. 
+- Si la compilación está ligada a la rama main, en Actions se observará un nuevo workflow que actualizará el HTML.
