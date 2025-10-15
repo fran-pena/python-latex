@@ -21,6 +21,7 @@ jobs:
           pip install -U pip
           pip install jupyter-book
           pip install sympy
+          pip install antlr4-python3-runtime==4.11
       - name: Build Jupyter Book
         run: jupyter-book build .
       - name: Deploy to GitHub Pages
