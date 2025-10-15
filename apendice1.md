@@ -12,7 +12,7 @@ kernelspec:
   name: python3
 ---
 
-# APÉNDICE I: Instrucciones para trabajar con Python-LaTeX
+# APÉNDICE I: Instrucciones para desarrolladores
 - Crear cuenta en github.com
 
 ## Creación del respositorio en github
@@ -36,6 +36,7 @@ kernelspec:
 - Crear entorno venv, python -m venv jupyter_venv
 - Entrar en el entorno, jupyter_venv/Scripts/activate
 - Instalar paquetes de jupyter-book
+```
    python -m pip install jupyter-book
    python -m pip install jupyter-cache
    python -m pip install plotly
@@ -43,6 +44,16 @@ kernelspec:
    python -m pip install matplotlib
    python -m pip install numpy
    python -m pip install pandas
+   python -m pip install antlr4-python3-runtime==4.11
+```   
+- En el proyecto, crear el fichero .vscode/settings.json con el contenido:
+```
+{
+    "python.defaultInterpreterPath": "C:/Users/<usuario>/jupyter_venv/Scripts/python.exe",
+    "python.terminal.activateEnvironment": true
+}
+```
+donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.
 
 ## Modificaciones en la nube
 - Ir a https://colab.research.google.com/

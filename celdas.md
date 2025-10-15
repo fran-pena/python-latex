@@ -11,7 +11,7 @@ kernelspec:
   language: python
   name: python3
 ---
-# Ejemplo de Python-LaTeX
+# Ejemplo de ejecucion de celdas
 
 Este ejemplo presenta las siguientes partes:
 

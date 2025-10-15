@@ -4,8 +4,11 @@
 format: jb-book
 root: intro
 chapters:
-- file: Capitulos
+- file: celdas
   sections:
-    - file: Parte1
-    - file: Parte2
-- file: Instrucciones
+    - file: celdas1
+    - file: celdas2
+- file: sympy
+  sections:
+    - file: sympy1
+- file: apendice1
