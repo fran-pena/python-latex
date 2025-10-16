@@ -42,6 +42,7 @@ kernelspec:
    python -m pip install plotly
    python -m pip install ipywidgets
    python -m pip install matplotlib
+   python -m pip install sympy
    python -m pip install numpy
    python -m pip install pandas
    python -m pip install antlr4-python3-runtime==4.11
@@ -54,6 +55,7 @@ kernelspec:
 }
 ```
 donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.
+- Ejecutar: jupyter-book build . --all
 
 ## Modificaciones en la nube
 - Ir a https://colab.research.google.com/
