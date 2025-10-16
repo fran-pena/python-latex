@@ -11,4 +11,7 @@ chapters:
 - file: sympy
   sections:
     - file: sympy1
+- file: acceso
+  sections:
+    - file: acceso1
 - file: apendice1
