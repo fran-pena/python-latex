@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\begin{document}
+
+\section{Cálculo de soluciones de $x^a + y^b = z^c$}
+
+Valores $a$, $b$, y $c$
+\begin{equation}
+a = 1
+\label{eq:calc:a}
+\end{equation}
+
+\begin{equation}
+b = 2
+\label{eq:calc:b}
+\end{equation}
+
+\begin{equation}
+c = 2
+\label{eq:calc:c}
+\end{equation}
+
+Valor máximo para las soluciones ($x, y, z \in \{1,2,..max\}$):
+\begin{equation}
+max = 10
+\label{eq:calc:max}
+\end{equation}
+
+\begin{algorithm}
+\caption{Número de soluciones}
+\label{alg:calc:numsols}
+\begin{algorithmic}
+    \STATE sols = 0
+    \STATE z = 1
+    \WHILE{$z \leq max$}
+        \STATE y = 1
+        \WHILE{$y \leq max$}
+            \STATE x = 1
+            \WHILE{$x \leq max$}
+                \IF{$x^a + y^b = z^c$}
+                    \STATE sols = sols + 1
+                    \STATE print("x =", x, " y =", y, "z=",z)
+                \ENDIF
+                \STATE x = x + 1
+            \ENDWHILE
+            \STATE y = y + 1
+        \ENDWHILE
+        \STATE z = z + 1
+    \ENDWHILE
+    \RETURN sols
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}
