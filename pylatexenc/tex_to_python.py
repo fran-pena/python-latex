@@ -119,3 +119,22 @@ def tex_to_python(expr):
 
     return expr
 
+
+def replace_aliases(expr, namespace):
+    """
+    Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"].
+    """
+    if "__latex_alias__" not in namespace:
+        return expr
+
+    names = namespace["__latex_alias__"]
+
+    # Ordenar alias del más largo al más corto para evitar colisiones
+    sorted_names = sorted(names.keys(), key=len, reverse=True)
+
+    for name in sorted_names:
+        alias = names[name]   # alias que se le da en el namespace
+        expr = expr.replace(name, alias)
+
+    return expr
+

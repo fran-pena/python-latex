@@ -1,80 +1,7 @@
-import re
-import ast
-import math
-from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode
-from tex_to_python import tex_to_python #Función con equivalencias de símbolos de LaTex a Python 
+from tex_to_python import tex_to_python
 
 
-# -------------------------------------------------------------------
-# Leer archivo
-# -------------------------------------------------------------------
-with open("C:/Users/anera/OneDrive/Documentos/USC/4º/TFG/python-latex/python-latex/pylatexenc/calculo.tex", encoding="utf-8") as f:
-    tex = f.read()
-
-# -------------------------------------------------------------------
-# Extraer ecuaciones etiquetadas
-# -------------------------------------------------------------------
-eq_pattern = re.compile(
-    r"\\begin\{equation\}(.*?)\\label\{eq:calc:(.*?)\}.*?\\end\{equation\}",
-    # Encontrar estructuras tipo 
-    #   \begin{equation} 
-    #       (1) 
-    #       \label{eq:calc:(2)} 
-    #       (?)
-    #   \end{equation}
-    re.S    # Incluir también la posibilidad de una nueva línea en (?)
-)
-equations = {label.strip(): expr.strip() for expr, label in eq_pattern.findall(tex)} # Crea un diccionario con {(2):(1)} para todas las eq del doc
-
-namespace = {"math": math}
-
-for label, expr in equations.items():
-    left, right = expr.split("=", 1)
-    right = tex_to_python(right.strip())
-    code = f"{label} = lambda x: {right}" if "(x)" in left else f"{label} = {right}"
-    print("Ejecutando:", code)
-    exec(code,namespace)  # Almacenar variables y funciones en namespace
-
-
-
-def find_algorithmic_nodes(nodes):
-    """Toma una lista de nodos y devuelve una lista con los nodos que son del tipo algorithmic"""
-    algorithmic_nodes = []
-    
-    def search_recursive(node_list):
-        for node in node_list:
-            # Si es un entorno algorithmic, lo añadimos
-            if isinstance(node, LatexEnvironmentNode) and node.envname == "algorithmic":
-                algorithmic_nodes.append(node)
-            
-            # Si el nodo tiene subnodos, buscar recursivamente
-            if hasattr(node, 'nodelist') and node.nodelist: # Tiene atributo nodelist y no está vacío
-                search_recursive(node.nodelist)
-            # Para nodos macro con argumentos que puedan contener subnodos
-            elif hasattr(node, 'nodeargd') and node.nodeargd: 
-                for arg in node.nodeargd.argnlist:
-                    if arg and hasattr(arg, 'nodelist') and arg.nodelist:
-                        search_recursive(arg.nodelist)
-    
-    search_recursive(nodes)
-    return algorithmic_nodes
-
-        
-# -------------------------------------------------------------------
-# Extraer entorno algorithmic con latexwalker
-# -------------------------------------------------------------------
-walker = LatexWalker(tex)
-nodes, _, _ = walker.get_latex_nodes()
-algorithmic_nodes = find_algorithmic_nodes(nodes)
-for node in algorithmic_nodes:
-    print(f"Encontrado entorno algorithmic en posición {node.pos}")
-    # Procesar el contenido del entorno algorithmic
-    for subnode in node.nodelist:
-        print(f"  - {type(subnode).__name__}: {subnode}")
-
-# -------------------------------------------------------------------
-# Convertir el entorno algorithmic a una estructura jerárquica
-# -------------------------------------------------------------------
+# Función para extraer recursivamente el texto de un nodelist
 def extract_text_from_node(node, cond = False):
     """Extrae todo el texto de un nodo y sus subnodos recursivamente"""
     if hasattr(node, 'chars'):
@@ -88,13 +15,123 @@ def extract_text_from_node(node, cond = False):
         if cond:
             str = str.replace("=", "==")
         return str
+    elif hasattr(node, 'argnlist'):
+        text_parts = []
+        for subnode in node.argnlist:
+            text_parts.append(extract_text_from_node(subnode)) 
+        str = ''.join(text_parts)
     elif hasattr(node, 'latex_verbatim'):
         # Para nodos que tienen método latex_verbatim
         return node.latex_verbatim()
     else:
         return ""
+        
+# -------------------------------------------------------------------
+# PARSEAR ENTORNO EQUATION
+# -------------------------------------------------------------------
 
-def parse_block(nodelist, start=0, end_tokens=None):
+def parse_eq_block(env_node):
+
+    """
+    Procesa un entorno equation y devuelve:
+    
+    {
+        # "type": "variable" | "function",
+        "name": <nombre interno python>,
+        "alias": <forma latex del lado izquierdo>,
+        "value": <valor python evaluado o lambda>,
+        "namespace_entry": (name, value)
+    }
+    """
+
+    def node_to_latex(node):
+        """
+        Reconstruye el texto original en LaTeX a partir de un nodo.
+        """
+        str = ""
+        for n in env_node.nodelist:
+            if hasattr(n, "macroname") and n.macroname == "label":
+                return str     
+            str += extract_text_from_node(n)
+
+    def extract_label(env_node):
+        """
+        Extrae el texto dentro de \label{...}
+        """
+        for n in env_node.nodelist:
+            if hasattr(n, "macroname") and n.macroname == "label":
+                label = extract_text_from_node(n.nodeargd)
+                return label
+        return None
+    
+    def extract_left_right(env_node):
+        """
+        Recupera la ecuación completa y la separa en lado izquierdo (left) y derecho (right).
+        """
+        full = node_to_latex(env_node)
+
+        if "=" not in full:
+            raise ValueError("Equation environment without '='")
+
+        left, right = full.split("=", 1)
+        return left.strip(), right.strip()
+    
+    # 1. Extraer label
+    label = extract_label(env_node)
+
+    # 2. Extraer left y right
+    left, right = extract_left_right(env_node)
+
+    name = left  # lo que el usuario escribió realmente
+
+    # =============================================
+    #  FUNCIÓN (forma f(x), g(a,b), etc.)
+    # =============================================
+    if "(" in left and left.endswith(")"):  
+        # nombre interno = el label si existe, si no, lo que está a la izquierda del "("
+        alias = label.split(":")[2]  if label else left.split("(", 1)[0]
+
+        # extraer parámetros
+        args = left[left.index("(") + 1 : -1].split(",")   # lista desde el primer parámetro hasta el último antes de ")"
+        args = [a.strip() for a in args if a.strip()]   # quitar espacios si hay
+        right = tex_to_python(right)  # Traducir a Python
+
+        # construir lambda dinámicamente
+        func = f"lambda {', '.join(args)}: {right}"
+
+        return {
+            #"type": "function",
+            "name": name,
+            "alias": alias,
+            "value": func,
+        }
+
+    # =============================================
+    # VARIABLE
+    # =============================================
+    alias = label.split(":")[2] if label else left  # si no hay label, usamos left literal
+
+    value = tex_to_python(right)
+
+    # intentar evaluar numéricamente
+    # try:
+    #    value = eval(right, {"math": math})
+    # except Exception:
+        # si no se puede evaluar, lo guardamos como string python
+    #    value = right
+    return {
+        #"type": "variable",
+        "name": name,
+        "alias": alias,
+        "value": value,
+    }
+
+
+# -------------------------------------------------------------------
+# PARSEAR ENTORNO ALGORITHMIC (convertirlo en una estructura jerárquica)
+# -------------------------------------------------------------------
+
+def parse_alg_block(alg_node, start=0, end_tokens=None):
     """
     Parsea nodos desde start hasta encontrar un nodo macro cuyo macroname (upper)
     esté en end_tokens. end_tokens puede ser None o lista de strings (ej: ["ENDIF"]).
@@ -105,6 +142,10 @@ def parse_block(nodelist, start=0, end_tokens=None):
     if end_tokens is None:
         end_tokens = []
 
+    if hasattr(alg_node,"nodelist"): 
+        nodelist = alg_node.nodelist
+    else:
+        nodelist = alg_node
     stmts = []
     i = start
     L = len(nodelist)
@@ -148,7 +189,7 @@ def parse_block(nodelist, start=0, end_tokens=None):
                 continue
 
 
-            # IF / ELSIF / ELSE handling requires special flow
+            # IF / ELSIF / ELSE 
             elif name == "IF":
                 # condición normalmente en siguiente nodo (group o math)
                 cond = ""
@@ -159,7 +200,7 @@ def parse_block(nodelist, start=0, end_tokens=None):
                         i += 1  # consumimos el argumento
 
                 # recorrer hasta ELSIF/ELSE/ENDIF
-                body, idx = parse_block(nodelist, i + 1, end_tokens=["ELSIF", "ELSE", "ENDIF"])
+                body, idx = parse_alg_block(nodelist, i + 1, end_tokens=["ELSIF", "ELSE", "ENDIF"])
                 branches = [("IF", cond, body)]
 
                 # manejar todos los ELSIF que haga falta
@@ -176,7 +217,7 @@ def parse_block(nodelist, start=0, end_tokens=None):
                         cond2 = extract_text_from_node(nxt, cond=True) # cond = true para interpretar = como ==
                         cur_idx += 1
                     # recorrer hasta el siguiente ELSIF/ELSE/ENDIF
-                    body2, cur_idx = parse_block(nodelist, cur_idx + 1, end_tokens=["ELSIF", "ELSE", "ENDIF"])
+                    body2, cur_idx = parse_alg_block(nodelist, cur_idx + 1, end_tokens=["ELSIF", "ELSE", "ENDIF"])
                     branches.append(("ELSIF", cond2, body2))
                     token = None
                     if cur_idx < L and hasattr(nodelist[cur_idx], "macroname"):
@@ -186,18 +227,15 @@ def parse_block(nodelist, start=0, end_tokens=None):
                 else_body = []
                 if cur_idx < L and hasattr(nodelist[cur_idx], "macroname") and nodelist[cur_idx].macroname.upper() == "ELSE":
                     # recorrer ELSE hasta ENDIF
-                    else_body, cur_idx = parse_block(nodelist, cur_idx + 1, end_tokens=["ENDIF"])
+                    else_body, cur_idx = parse_alg_block(nodelist, cur_idx + 1, end_tokens=["ENDIF"])
 
-                # cur_idx should now point to ENDIF (or EOF)
-                # Advance i to that ENDIF (if present)
+                # cur_idx ahora apunta a ENDIF (or al final)
+                # Avanzar i a ese ENDIF (si existe)
                 i = cur_idx
-                # Build a structured if node: keep branches and else
-                # For backward compatibility with earlier code, produce "cond","body","else"
-                # We'll compose a single IF where:
-                #  - cond: first IF cond
-                #  - body: first IF body
-                #  - else: if ELSIFs exist, represent them as nested ifs in 'else' chain
-                # Convert branches (IF + ELSIF*) into nested structure:
+                # Construir un nodo IF estructurado: 
+                #  - cond: condición del primer IF 
+                #  - body: cuerpo del primer IF
+                #  - else: si hay ELSIFs, representarlos como IFs anidados dentro de ELSE 
                 def branches_to_nested(branches, else_block):
                     # branches: list of ("IF"/"ELSIF", cond, body)
                     first = branches[0]
@@ -225,9 +263,9 @@ def parse_block(nodelist, start=0, end_tokens=None):
                         cond = extract_text_from_node(nxt, cond=True)
                         i += 1  # consumimos el argumento
 
-                body, idx = parse_block(nodelist, i + 1, end_tokens=["ENDWHILE"])
+                body, idx = parse_alg_block(nodelist, i + 1, end_tokens=["ENDWHILE"])
                 stmts.append({"type": "while", "cond": tex_to_python(cond.strip()), "body": body})
-                # advance i to after ENDWHILE if present
+                # Avanzar i a ENDWHILE (si existe)
                 if idx < L and hasattr(nodelist[idx], "macroname") and nodelist[idx].macroname.upper() == "ENDWHILE":
                     i = idx + 1
                 else:
@@ -239,49 +277,3 @@ def parse_block(nodelist, start=0, end_tokens=None):
 
     # fin while
     return stmts, i
-
-def parse_algorithmic(nodelist):
-    """
-    Wrapper que parsea todo el nodelist de un environment algorithmic.
-    Devuelve la lista de sentencias (estructura anidada).
-    """
-    stmts, _ = parse_block(nodelist, 0, end_tokens=None)
-    return stmts
-
-# antes no se estaba evaluando en la lista, si no en la clase. Aqui, se hace un repaso de todos los entornos algoritmo y se ponen en una lista
-algorithm=list(range(len(algorithmic_nodes)))
-for i, algenv in enumerate(algorithmic_nodes):
-    algorithm[i] = parse_algorithmic(algenv.nodelist)  
-
-print("\nEstructura del algoritmo:")
-from pprint import pprint
-pprint(algorithm)
-
-# -------------------------------------------------------------------
-# Ejecutar el árbol del algoritmo
-# -------------------------------------------------------------------
-
-def ejecutar(algo, ns):
-    for step in algo:
-        if step["type"] == "assign":
-            exec(step["code"], ns)
-            #print("Ejecutando:", step["code"])
-        elif step["type"] == "if":
-            if eval(step["cond"], ns):
-                ejecutar(step["body"], ns)
-            else:
-                ejecutar(step["else"], ns)
-        elif step["type"] == "while":
-            while eval(step["cond"], ns):
-                ejecutar(step["body"], ns)
-        elif step["type"] == "return":
-            return ns[step["expr"]]
-    return None
-
-
-
-root = ejecutar(algorithm[0], namespace)
-
-print(f"\nRaíz aproximada: {root:.6f}")
-#{exec("valor=f(c)",namespace)}
-#print(f"Valor de f en la raíz encontrada: {namespace["valor"]:.6f}")

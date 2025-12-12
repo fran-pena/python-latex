@@ -32,11 +32,11 @@ w = LatexWalker(r"""
 w = LatexWalker(r"""
     \begin{equation}
         f(x) = x^3-\ln(x)-3
-        \label{f}
+        \label{eq:calc:f}
     \end{equation}
     \begin{equation}
         a = 1
-        \label{a}
+        \label{eq:calc:a}
     \end{equation}
 """)
 
