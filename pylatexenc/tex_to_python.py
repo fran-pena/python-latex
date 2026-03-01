@@ -36,6 +36,12 @@ def tex_to_python(expr):
     # =================================
     # 2. Funciones matemáticas
     # =================================
+    # \sqrt[n]{x} → (x)**(1/n)
+    expr = re.sub(
+    r'\\sqrt\[([^\]]+)\]\{(.+?)\}',
+    r'(\2)**(1/\1)',
+    expr
+    )
     math_funcs = {
         r"\sqrt": "math.sqrt",
         r"\sin": "math.sin",
@@ -138,3 +144,12 @@ def replace_aliases(expr, namespace):
 
     return expr
 
+def tex_to_python_with_alias(expr, namespace):
+    """
+    Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"], 
+    y luego convierte expresiones matemáticas en estilo LaTeX a expresiones válidas en Python.
+    """
+    #print(expr)
+    #withalias = replace_aliases(expr,namespace)
+    #print(withalias)
+    return (tex_to_python(replace_aliases(expr,namespace)))
