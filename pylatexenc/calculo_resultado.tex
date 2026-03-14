@@ -2,8 +2,17 @@
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\title{Ejemplos de uso de comPyLaTex}
+\author{}
+\date{}
 
 \begin{document}
+
+\maketitle
+
 
 \section{Cálculo de raíces}
 
@@ -22,12 +31,16 @@ b = 10
 \label{eq:calc:b}
 \end{equation}
 
+\begin{equation}
+    tol_{dic} = 1e-6
+    \label{eq:calc:toldic}
+\end{equation}
+
 \begin{algorithm}
 \caption{Método de dicotomía}
 \label{alg:calc:dicotomia}
 \begin{algorithmic}
-\STATE $tol = 1e-6$
-\WHILE{$b - a > tol$}
+\WHILE{$b - a > tol_{dic}$}
     \STATE $c = (a + b)/2$
     \IF{$f(a) \cdot f(c) < 0$}
         \STATE $b = c$
@@ -69,6 +82,8 @@ max = 10
 \label{eq:calc:max}
 \end{equation}
 
+
+
 \begin{algorithm}
 \caption{Número de soluciones}
 \label{alg:calc:numsols}
@@ -82,7 +97,6 @@ max = 10
             \WHILE{$x \leq max$}
                 \IF{$x^a + y^b = z^c$}
                     \STATE sols = sols + 1
-                    \STATE print("x =", x, " y =", y, "z=",z)
                 \ENDIF
                 \STATE x = x + 1
             \ENDWHILE
@@ -140,6 +154,341 @@ max = 10
     2.000000
     \label{eq:res:a}
 \end{equation}
+
+
+% ============================================================
+% SECCIÓN 1: CÁLCULO — Newton-Raphson
+% ============================================================
+
+\section{Cálculo: Método de Newton-Raphson}
+
+El método de Newton-Raphson permite aproximar raíces de funciones diferenciables
+mediante la iteración $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+Aplicamos el método a $f(x) = x^3 - 2$, cuya raíz es $\sqrt[3]{2} \approx 1.259921$.
+
+\begin{equation}
+    f(x) = x^3 - 2
+    \label{eq:calc:f}
+\end{equation}
+
+\begin{equation}
+    df(x) = 3 \cdot x^2
+    \label{eq:calc:df}
+\end{equation}
+
+\begin{equation}
+    x_0 = 1.5
+    \label{eq:calc:x0}
+\end{equation}
+
+\begin{equation}
+    tol_{NR} = 1e-6
+    \label{eq:calc:tolNR}
+\end{equation}
+
+\begin{algorithm}
+\caption{Método de Newton-Raphson para $f(x) = x^3 - 2$}
+\begin{algorithmic}
+    \STATE $x = x_0$
+    \WHILE{$\left|f(x)\right| > tol_{NR}$}
+        \STATE $x = x - f(x) / df(x)$
+    \ENDWHILE
+    \RETURN $x$
+\end{algorithmic}
+\end{algorithm}
+
+La raíz aproximada de $f(x) = x^3 - 2$ obtenida por Newton-Raphson es:
+
+\begin{equation}
+    x =
+    1.259921
+    \label{eq:res:x}
+\end{equation}
+
+% ============================================================
+% SECCIÓN 2: ÁLGEBRA — Método de Jacobi
+% ============================================================
+
+\section{Álgebra: Método de Jacobi}
+
+El método de Jacobi es un método iterativo para la resolución de sistemas de
+ecuaciones lineales. Aplicamos el método al sistema:
+\[
+    \left \{
+        \begin{array}{rr}
+        5x-y+z & = 10 \\
+        2x+8y-z & = 11 \\
+        -x+y+4z & = 3
+        \end{array}
+    \right .
+\]
+
+cuya solución exacta es $(x, y, z) = (2,1,1)$.
+
+Las ecuaciones de actualización de Jacobi para este sistema son:
+\[
+    x_{n+1} = \frac{10 + y_n - z_n}{5}, \quad y_{n+1} = \frac{11 - 2\cdot x_n + z_n}{8}, \quad z_{n+1} = \frac{3 + x_n - y_n}{4}
+\]
+
+\begin{equation}
+    x_j = 0
+    \label{eq:calc:xj}
+\end{equation}
+
+\begin{equation}
+    y_j = 0
+    \label{eq:calc:yj}
+\end{equation}
+
+\begin{equation}
+    z_j = 0
+    \label{eq:calc:zj}
+\end{equation}
+
+\begin{equation}
+    tol_{J} = 1e-6
+    \label{eq:calc:tolJ}
+\end{equation}
+
+\begin{algorithm}
+\caption{Método de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
+\begin{algorithmic}
+    \STATE $x = (10 + y_j - z_j)/5$
+    \STATE $y = (11 - 2\cdot x_j + z_j)/8$
+    \STATE $z = (3 + x_j - y_j)/4$
+    \WHILE{$\left|x - x_j\right| > tol_{J}$}
+        \STATE $x_j = x$
+        \STATE $y_j = y$
+        \STATE $z_j = z$
+        \STATE $x = (10 + y_j - z_j)/5$
+        \STATE $y = (11 - 2\cdot x_j + z_j)/8$
+        \STATE $z = (3 + x_j - y_j)/4$
+    \ENDWHILE
+    \RETURN $x$, $y$, $z$
+\end{algorithmic}
+\end{algorithm}
+
+La solución aproximada del sistema obtenida por Jacobi es:
+
+\begin{equation}
+    x =
+    2.000000
+    \label{eq:res:x}
+\end{equation}
+
+\begin{equation}
+    y =
+    1.000000
+    \label{eq:res:y}
+\end{equation}
+
+\begin{equation}
+    z =
+    1.000000
+    \label{eq:res:z}
+\end{equation}
+
+% ============================================================
+% SECCIÓN 3: ANÁLISIS — Método de Euler para EDOs
+% ============================================================
+
+\section{Análisis: Método de Euler para ecuaciones diferenciales}
+
+El método de Euler explícito aproxima la solución de un problema de valor inicial
+$y' = f(t, y)$, $y(t_0) = y_0$, mediante la iteración:
+\[
+    y_{n+1} = y_n + h \cdot f(t_n, y_n)
+\]
+Aplicamos el método a $y' = y$, $y(0) = 1$, cuya solución exacta es $y(t) = e^t$.
+Evaluamos en $t = 1$, donde la solución exacta vale $e \approx 2.718282$.
+
+\begin{equation}
+    g(t, y) = y
+    \label{eq:calc:g}
+\end{equation}
+
+\begin{equation}
+    y_0 = 1
+    \label{eq:calc:y0}
+\end{equation}
+
+\begin{equation}
+    h = 0.01
+    \label{eq:calc:h}
+\end{equation}
+
+\begin{equation}
+    T = 1
+    \label{eq:calc:T}
+\end{equation}
+
+\begin{algorithm}
+\caption{Método de Euler para $y' = y$, $y(0) = 1$}
+\begin{algorithmic}
+    \STATE $t = 0$
+    \STATE $y = y_0$
+    \WHILE{$t < T$}
+        \STATE $y = y + h \cdot g(t, y)$
+        \STATE $t = t + h$
+    \ENDWHILE
+    \RETURN $y$
+\end{algorithmic}
+\end{algorithm}
+
+La aproximación de $e = y(1)$ obtenida por el método de Euler con paso $h = 0.01$ es:
+
+\begin{equation}
+    y =
+    2.704814
+    \label{eq:res:y}
+\end{equation}
+
+% ============================================================
+% SECCIÓN 4: ESTADÍSTICA — Número combinatorio
+% ============================================================
+
+\section{Estadística: Número combinatorio}
+
+El número combinatorio $\binom{n}{k}$ cuenta el número de subconjuntos de tamaño
+$k$ de un conjunto de $n$ elementos. Se calcula mediante:
+\[
+    \binom{n}{k} = \frac{n!}{k! \cdot (n-k)!}
+\]
+Calculamos $\binom{10}{3} = 120$ mediante el cálculo iterativo de factoriales.
+
+\begin{equation}
+    n = 10
+    \label{eq:calc:n}
+\end{equation}
+
+\begin{equation}
+    k = 3
+    \label{eq:calc:k}
+\end{equation}
+
+\begin{algorithm}
+\caption{Cálculo de $\binom{n}{k}$ mediante factoriales iterativos}
+\begin{algorithmic}
+    \STATE $fn = 1$
+    \STATE $i = 1$
+    \WHILE{$i \leq n$}
+        \STATE $fn = fn \cdot i$
+        \STATE $i = i + 1$
+    \ENDWHILE
+    \STATE $fk = 1$
+    \STATE $i = 1$
+    \WHILE{$i \leq k$}
+        \STATE $fk = fk \cdot i$
+        \STATE $i = i + 1$
+    \ENDWHILE
+    \STATE $fnk = 1$
+    \STATE $i = 1$
+    \WHILE{$i \leq n - k$}
+        \STATE $fnk = fnk \cdot i$
+        \STATE $i = i + 1$
+    \ENDWHILE
+    \STATE $nc = fn / (fk \cdot fnk)$
+    \RETURN $nc$
+\end{algorithmic}
+\end{algorithm}
+
+El número combinatorio $\binom{10}{3}$ calculado por el programa es:
+
+\begin{equation}
+    \binom{10}{3} =
+    120.000000
+    \label{eq:res:nc}
+\end{equation}
+
+% ============================================================
+% SECCIÓN 5: BIOLOGÍA MATEMÁTICA — Lotka-Volterra
+% ============================================================
+
+\section{Biología matemática: Sistema de Lotka-Volterra}
+
+El sistema de Lotka-Volterra modela la dinámica de poblaciones depredador-presa:
+\[
+\left \{
+\begin{array}{rrrr}
+    \frac{dx}{dt} & = &\alpha x - \beta x y \\
+    \quad \frac{dy}{dt} & = &\delta x y - \gamma y
+\end{array}
+\right .
+\]
+donde $x$ es la población de presas, $y$ la de depredadores, y $\alpha$, $\beta$,
+$\delta$, $\gamma$ son parámetros del modelo. Aplicamos Euler explícito con los
+parámetros clásicos $\alpha = 1.0$, $\beta = 0.1$, $\delta = 0.075$, $\gamma = 1.5$,
+condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T = 10$.
+
+\begin{equation}
+    \alpha = 1.0
+    \label{eq:calc:alpha}
+\end{equation}
+
+\begin{equation}
+    \beta = 0.1
+    \label{eq:calc:beta}
+\end{equation}
+
+\begin{equation}
+    \delta = 0.075
+    \label{eq:calc:delta}
+\end{equation}
+
+\begin{equation}
+    \gamma = 1.5
+    \label{eq:calc:gamma}
+\end{equation}
+
+\begin{equation}
+    x_{LV} = 10.0
+    \label{eq:calc:xlv}
+\end{equation}
+
+\begin{equation}
+    y_{LV} = 5.0
+    \label{eq:calc:ylv}
+\end{equation}
+
+\begin{equation}
+    h_{LV} = 0.01
+    \label{eq:calc:hlv}
+\end{equation}
+
+\begin{equation}
+    T_{LV} = 10
+    \label{eq:calc:Tlv}
+\end{equation}
+
+\begin{algorithm}
+\caption{Euler explícito para el sistema de Lotka-Volterra}
+\begin{algorithmic}
+    \STATE $t_{LV} = 0$
+    \WHILE{$t_{LV} < T_{LV}$}
+        \STATE $dxdt = \alpha \cdot x_{LV} - \beta \cdot x_{LV} \cdot y_{LV}$
+        \STATE $dydt = \delta \cdot x_{LV} \cdot y_{LV} - \gamma \cdot y_{LV}$
+        \STATE $x_{LV} = x_{LV} + h_{LV} \cdot dxdt$
+        \STATE $y_{LV} = y_{LV} + h_{LV} \cdot dydt$
+        \STATE $t_{LV} = t_{LV} + h_{LV}$
+    \ENDWHILE
+    \RETURN $x_{LV}$
+\end{algorithmic}
+\end{algorithm}
+
+Las poblaciones aproximadas en $t = 10$ obtenidas por el método de Euler son:
+
+\begin{equation}
+    x_{LV} =
+    7.383307
+    \label{eq:res:xlv}
+\end{equation}
+
+\begin{equation}
+    y_{LV} =
+    11.699475
+    \label{eq:res:ylv}
+\end{equation}
+
 
 \end{document}
 

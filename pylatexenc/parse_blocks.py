@@ -19,17 +19,22 @@ def extract_text_from_node(node, cond = False):
                 delimiters = getattr(arg, 'delimiters', None)
                 if delimiters and delimiters[0] == '[':
                     str += "[" + extract_text_from_node(arg) + "]"
+                elif delimiters and delimiters[0] == '(':
+                # Llamada a función: reconstruir con paréntesis sin backslash
+                    str = node.macroname + "(" + extract_text_from_node(arg) + ")"
                 else:
                     str += "{" + extract_text_from_node(arg) + "}"
                 
         return str
     # Nodos con subnodos
     if hasattr(node, 'nodelist'):
-        # Para nodos que contienen otros nodos (grupos, entornos, etc.)
         text_parts = []
         for subnode in node.nodelist:
-            text_parts.append(extract_text_from_node(subnode)) 
+            text_parts.append(extract_text_from_node(subnode))
         str = ''.join(text_parts)
+        delimiters = getattr(node, 'delimiters', None)
+        if delimiters and delimiters[0] == '(':
+            str = "(" + result + ")"
         if cond:
             str = str.replace("=", "==")
         return str

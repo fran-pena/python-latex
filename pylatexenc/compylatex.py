@@ -78,29 +78,6 @@ def ejecutar(algo, ns):
 # Reinsertar resultado en tex_resultado
 # -------------------------------------------------------------------
 
-def reinsert_result(tex, alias, value):
-    value_str = f"{value:.6f}" if isinstance(value, float) else str(value)
-    
-    # Primero encontrar el entorno equation que contiene el label correcto
-    # Luego sustituir solo el RHS dentro de ese entorno
-    def replace_match(m):
-        env = m.group(0)
-        # Dentro del entorno, sustituir lo que hay entre = y \label
-        env = re.sub(
-            r'(=\s*).*?(\\label\{eq:res:' + re.escape(alias) + r'\})',
-            r'\g<1>' + value_str + r'\n    \2',
-            env,
-            flags=re.DOTALL
-        )
-        return env
-    
-    # Primero aislar el entorno correcto (el que contiene ese label específico)
-    pattern = re.compile(
-        r'\\begin\{equation\}[^}]*?\\label\{eq:res:' + re.escape(alias) + r'\}.*?\\end\{equation\}',
-        re.DOTALL
-    )
-    return pattern.sub(replace_match, tex)
-
 
 # -------------------------------------------------------------------
 # Extraer entornos con latexwalker
@@ -108,7 +85,7 @@ def reinsert_result(tex, alias, value):
 walker = LatexWalker(tex)
 nodes, _, _ = walker.get_latex_nodes()
 
-
+substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las posiciones en el nuevo documento
 env_nodes = find_algorithmic_and_equation_nodes(nodes)
 for node in env_nodes:
     if node.envname == "algorithmic":
@@ -129,17 +106,32 @@ for node in env_nodes:
             alias = var_dict["alias"]
             if alias in namespace:
                 value = namespace[alias]
-                tex_resultado = reinsert_result(tex_resultado, alias, value)
-                print(f"Resultado insertado: {alias} = {value:.6f}" if isinstance(value, float) else f"Resultado insertado: {alias} = {value}")
+                value_str = f"{value:.6f}" if isinstance(value, float) else str(value)
+                env_text = tex[node.pos : node.pos + node.len]
+                new_env = re.sub(
+                    r'(=\s*)(\\label\{eq:res:' + re.escape(alias) + r'\})',
+                    r'\g<1>' + value_str + r'\n    \2',
+                    env_text,
+                    flags=re.DOTALL
+                )
+                substitutions.append((node.pos, node.len, new_env))
             else:
                 print(f"Advertencia: '{alias}' no encontrado en namespace, no se inserta resultado")
         else:
             # Es un cálculo o definición: ejecutar normalmente
             code = var_dict["alias"] + "=" + var_dict["value"]
             print("Ejecutando:", code)
-            namespace["__latex_alias__"][var_dict["name"]] = var_dict["alias"]  # Almacenar el nombre para que se corresponda con el alias
+            name_key = var_dict["name"].split('(')[0].strip()
+            namespace["__latex_alias__"][name_key] = var_dict["alias"]  # Almacenar el nombre para que se corresponda con el alias
             exec(code, namespace)  # Almacenar variables y funciones en namespace
         
+# --------------------------------------------------------------------
+# Sustituir resultados 
+# -------------------------------------------------------------------
+# Aplicar sustituciones de atrás hacia adelante
+tex_resultado = tex
+for pos, length, new_text in sorted(substitutions, key=lambda x: x[0], reverse=True): # De atrás a delante para que las posiciones no cambier respecto al OG
+    tex_resultado = tex_resultado[:pos] + new_text + tex_resultado[pos + length:]
 
 # -------------------------------------------------------------------
 # Escribir archivo resultado

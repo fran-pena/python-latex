@@ -14,6 +14,9 @@ def tex_to_python(expr):
     # Primero, eliminar espacios redundantes
     expr = expr.strip()
 
+    #Eliminar para que no de problemas 
+    expr = expr.replace(r"\left", "").replace(r"\right", "")
+
     # =================================
     # 1. Operadores relacionales
     # =================================
@@ -32,6 +35,7 @@ def tex_to_python(expr):
     # Aplicar reemplazos
     for latex, py in replacements.items():
         expr = expr.replace(latex, py)
+    
 
     # =================================
     # 2. Funciones matemáticas
@@ -56,6 +60,7 @@ def tex_to_python(expr):
     for latex, py in math_funcs.items():
         expr = expr.replace(latex, py)
 
+
     # =================================
     # 3. Operaciones matemáticas
     # =================================
@@ -67,22 +72,25 @@ def tex_to_python(expr):
     }
     for latex, py in oper.items():
         expr = expr.replace(latex, py)
- 
+
 
     # =================================
     # 4. Sustituir {  } por ( )
     # =================================
     expr = expr.replace("{", "(").replace("}", ")")
 
+
     # =================================
     # 5. Valores absolutos |x| → abs(x)
     # =================================
     expr = re.sub(r"\|(.*?)\|", r"abs(\1)", expr)
 
+
     # =================================
     # 6. Normalizar espacios
     # =================================
     expr = re.sub(r"\s+", " ", expr).strip()
+
 
     # =================================
     # 7. Letras griegas  (No están pi, Pi, Sigma)
@@ -152,4 +160,6 @@ def tex_to_python_with_alias(expr, namespace):
     #print(expr)
     #withalias = replace_aliases(expr,namespace)
     #print(withalias)
-    return (tex_to_python(replace_aliases(expr,namespace)))
+    result = replace_aliases(expr, namespace)
+    return tex_to_python(result)
+
