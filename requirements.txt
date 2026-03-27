@@ -1,5 +1,5 @@
 # Jupyter Book
-jupyter-book
+jupyter-book<2
 matplotlib
 numpy
 sympy

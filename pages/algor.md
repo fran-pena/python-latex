@@ -16,5 +16,6 @@ kernelspec:
 Este ejemplo presenta las siguientes partes:
 
 ```{tableofcontents}
+```
 
 Obsérvese: [enlace a explicacion de paquetes](https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused)

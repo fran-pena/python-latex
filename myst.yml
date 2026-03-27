@@ -1,0 +1,7 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+site:
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png

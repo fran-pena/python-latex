@@ -16,4 +16,4 @@ kernelspec:
 Este ejemplo presenta las siguientes partes:
 
 ```{tableofcontents}
-
+```
