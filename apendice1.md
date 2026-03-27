@@ -57,6 +57,12 @@ kernelspec:
 donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.
 - Ejecutar: jupyter-book build . --all
 
+### Registrar el kernel del venv
+```jupyter_venv\Scripts\activate
+python -m pip install ipykernel
+python -m ipykernel install --user --name=jupyter_venv --display-name="Python (jupyter_venv)"
+```
+
 ## Modificaciones en la nube
 - Ir a https://colab.research.google.com/
 - En Abrir cuaderno - GitHub, escribir: nombre de usuario de Github, repositorio python-latex y rama dev.
@@ -108,3 +114,16 @@ https://fran-pena.github.io/python-latex/intro.html
 - Se añade un mensaje de descripción (opcional) y luego pulsa Merge pull request
 - Si no hay conflictos,  confirma con Confirm merge. 
 - Si la compilación está ligada a la rama main, en Actions se observará un nuevo workflow que actualizará el HTML.
+
+# APÉNDICE: TO DO
+- Quarto permite latex más complejo que Jupyter NB.
+  - Pro: Posit Cloud es equivalente a Google Colab
+  - Con: No he conseguido usar el paquete algorithmic
+  - Con: los fichero qmd no son interactivos: se editan como md y se compilan en html o PDF.
+  - Con: el latex complejo parece solo compilarse para PDF, no para HTML (inutiliza la compartición por Google Pages), a menos que solo se cuegue el PDF.
+
+- Como alternativa, leer ficheros tex, identificar ecuaciones por label y generar el resultado.
+- TODO: pensar cómo organizar la salida: 
+  - valores: tener una ecuación $$v\label{eq:res:1}$$, detectar el v y poner v = ... (identificar si es escalar, vector o matrix)
+  - Gráficas: tener una figure, detectar el label{plot:res:...} y leer la ruta del fichero y ponerlo ahí. Dentro de la gráfica debemos poner un comentario tipo %plot(u,v) 
+

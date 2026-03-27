@@ -14,4 +14,7 @@ chapters:
 - file: acceso
   sections:
     - file: acceso1
+- file: algor
+  sections:
+    - file: algor1
 - file: apendice1
