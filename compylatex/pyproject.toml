@@ -1,4 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
+name = "compylatex"
+version = "0.1.0"
+description = "Package to execute algorithms written in LaTeX files"
+authors = [
+    { name = "Ane Ruiz de Alegria",  email = "ane.ruiz@rai.usc.gal" },
+    { name = "Francisco Pena-Brage", email = "fran.pena@usc.es" }
+]
 dependencies = [
     "pylatexenc>=2.10",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]

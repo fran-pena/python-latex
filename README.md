@@ -1,6 +1,17 @@
-# python-latex
+# Paquete python-latex
 
-TODO:
-- ejemplo de lectura de celdas IPYNB
-- identificación de celdsa leibles con <!
-- ejemplo de lectura de algoritmos
+
+## Instalacion
+1. Crear un entorno virtual:
+- En Windows (CMD):
+   ```bash
+   python -m venv venv_compylatex
+   ```
+2. Activar el entorno virtual:
+   ```bash
+   venv_compylatex\Scripts\activate.bat
+   ```
+3. Ir a la carpeta raiz de _python-latex_ e instalar los requisitos:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```

@@ -77,17 +77,21 @@ def compylatex(fichero_latex, output=None):
     # -------------------------------------------------------------------
     # Aplicar sustituciones de atrás hacia adelante
     tex_resultado = tex
-    for pos, length, new_text in sorted(substitutions, key=lambda x: x[0], reverse=True): # De atrás a delante para que las posiciones no cambier     respecto al OG
+    for pos, length, new_text in sorted(substitutions, key=lambda x: x[0], reverse=True): # De atrás a delante para que las posiciones no cambie respecto al OG
         tex_resultado = tex_resultado[:pos] + new_text + tex_resultado[pos + length:]
     
     # -------------------------------------------------------------------
     # Escribir archivo resultado
     # -------------------------------------------------------------------
-    output_path = "C:/Users/anera/OneDrive/Documentos/USC/4º/TFG/python-latex/pylatexenc/calculo_resultado.tex"
-    with open(output_path, "w", encoding="utf-8") as f:
+    #output_path = "C:/Users/anera/OneDrive/Documentos/USC/4º/TFG/python-latex/pylatexenc/calculo_resultado.tex"
+    #with open(output_path, "w", encoding="utf-8") as f:
+    #    f.write(tex_resultado)
+    #print(f"\nResultado guardado en {output_path}")
+    if output is None:
+        output = fichero_latex  # sobreescribe el original
+    with open(output, "w", encoding="utf-8") as f:
         f.write(tex_resultado)
-    print(f"\nResultado guardado en {output_path}")
-
+    print(f"\nResultado guardado en {output}")
 
 def find_algorithmic_and_equation_nodes(nodes):
     """Toma una lista de nodos y devuelve una lista con los nodos que son del tipo algorithmic o equation"""

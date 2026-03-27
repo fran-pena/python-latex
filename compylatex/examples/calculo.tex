@@ -14,7 +14,7 @@
 \maketitle
 
 
-\section{Cálculo de raíces}
+\section{C\'alculo de ra\'{\i}ces}
 
 \begin{equation}
 f(x) = x \cdot \ln(2)
@@ -37,7 +37,7 @@ b = 10
 \end{equation}
 
 \begin{algorithm}
-\caption{Método de dicotomía}
+\caption{M\'etodo de dicotom\'{\i}a}
 \label{alg:calc:dicotomia}
 \begin{algorithmic}
 \WHILE{$b - a > tol_{dic}$}
@@ -54,11 +54,10 @@ b = 10
 
 \begin{equation}
     c = 
-    -0.000000
     \label{eq:res:c}
 \end{equation}
 
-\section{Cálculo de soluciones de $x^a + y^b = z^c$}
+\section{C\'alculo de soluciones de $x^a + y^b = z^c$}
 
 Valores $a$, $b$, y $c$
 \begin{equation}
@@ -76,7 +75,7 @@ c = 2
 \label{eq:calc:c}
 \end{equation}
 
-Valor máximo para las soluciones ($x, y, z \in \{1,2,..max\}$):
+Valor m\'aximo para las soluciones ($x, y, z \in \{1,2,..max\}$):
 \begin{equation}
 max = 10
 \label{eq:calc:max}
@@ -85,7 +84,7 @@ max = 10
 
 
 \begin{algorithm}
-\caption{Número de soluciones}
+\caption{N\'umero de soluciones}
 \label{alg:calc:numsols}
 \begin{algorithmic}
     \STATE sols = 0
@@ -110,7 +109,6 @@ max = 10
 
 \begin{equation}
     sols = 
-    5
     \label{eq:res:sols}
 \end{equation}
 
@@ -139,11 +137,10 @@ max = 10
 
 \begin{equation}
     j = 
-    21.233074
     \label{eq:res:j}
 \end{equation}
 
-\section{Prueba con raíces cúbicas}
+\section{Prueba con ra\'{\i}ces c\'ubicas}
 \begin{equation}
     a = \sqrt[3]{8}
     \label{eq:calc:a}
@@ -151,20 +148,19 @@ max = 10
 
 \begin{equation}
     a = 
-    2.000000
     \label{eq:res:a}
 \end{equation}
 
 
 % ============================================================
-% SECCIÓN 1: CÁLCULO — Newton-Raphson
+% SECCI\'ON 1: C\'ALCULO — Newton-Raphson
 % ============================================================
 
-\section{Cálculo: Método de Newton-Raphson}
+\section{C\'alculo: M\'etodo de Newton-Raphson}
 
-El método de Newton-Raphson permite aproximar raíces de funciones diferenciables
-mediante la iteración $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
-Aplicamos el método a $f(x) = x^3 - 2$, cuya raíz es $\sqrt[3]{2} \approx 1.259921$.
+El m\'etodo de Newton-Raphson permite aproximar ra\'{\i}ces de funciones diferenciables
+mediante la iteraci\'on $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx 1.259921$.
 
 \begin{equation}
     f(x) = x^3 - 2
@@ -187,7 +183,7 @@ Aplicamos el método a $f(x) = x^3 - 2$, cuya raíz es $\sqrt[3]{2} \approx 1.25
 \end{equation}
 
 \begin{algorithm}
-\caption{Método de Newton-Raphson para $f(x) = x^3 - 2$}
+\caption{M\'etodo de Newton-Raphson para $f(x) = x^3 - 2$}
 \begin{algorithmic}
     \STATE $x = x_0$
     \WHILE{$\left|f(x)\right| > tol_{NR}$}
@@ -197,22 +193,21 @@ Aplicamos el método a $f(x) = x^3 - 2$, cuya raíz es $\sqrt[3]{2} \approx 1.25
 \end{algorithmic}
 \end{algorithm}
 
-La raíz aproximada de $f(x) = x^3 - 2$ obtenida por Newton-Raphson es:
+La ra\'{\i}z aproximada de $f(x) = x^3 - 2$ obtenida por Newton-Raphson es:
 
 \begin{equation}
     x =
-    1.259921
     \label{eq:res:x}
 \end{equation}
 
 % ============================================================
-% SECCIÓN 2: ÁLGEBRA — Método de Jacobi
+% SECCI\'ON 2: \'ALGEBRA — M\'etodo de Jacobi
 % ============================================================
 
-\section{Álgebra: Método de Jacobi}
+\section{\'Algebra: M\'etodo de Jacobi}
 
-El método de Jacobi es un método iterativo para la resolución de sistemas de
-ecuaciones lineales. Aplicamos el método al sistema:
+El m\'etodo de Jacobi es un m\'etodo iterativo para la resoluci\'on de sistemas de
+ecuaciones lineales. Aplicamos el m\'etodo al sistema:
 \[
     \left \{
         \begin{array}{rr}
@@ -223,9 +218,9 @@ ecuaciones lineales. Aplicamos el método al sistema:
     \right .
 \]
 
-cuya solución exacta es $(x, y, z) = (2,1,1)$.
+cuya soluci\'on exacta es $(x, y, z) = (2,1,1)$.
 
-Las ecuaciones de actualización de Jacobi para este sistema son:
+Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
 \[
     x_{n+1} = \frac{10 + y_n - z_n}{5}, \quad y_{n+1} = \frac{11 - 2\cdot x_n + z_n}{8}, \quad z_{n+1} = \frac{3 + x_n - y_n}{4}
 \]
@@ -251,7 +246,7 @@ Las ecuaciones de actualización de Jacobi para este sistema son:
 \end{equation}
 
 \begin{algorithm}
-\caption{Método de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
+\caption{M\'etodo de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
 \begin{algorithmic}
     \STATE $x = (10 + y_j - z_j)/5$
     \STATE $y = (11 - 2\cdot x_j + z_j)/8$
@@ -268,39 +263,36 @@ Las ecuaciones de actualización de Jacobi para este sistema son:
 \end{algorithmic}
 \end{algorithm}
 
-La solución aproximada del sistema obtenida por Jacobi es:
+La soluci\'on aproximada del sistema obtenida por Jacobi es:
 
 \begin{equation}
     x =
-    2.000000
     \label{eq:res:x}
 \end{equation}
 
 \begin{equation}
     y =
-    1.000000
     \label{eq:res:y}
 \end{equation}
 
 \begin{equation}
     z =
-    1.000000
     \label{eq:res:z}
 \end{equation}
 
 % ============================================================
-% SECCIÓN 3: ANÁLISIS — Método de Euler para EDOs
+% SECCI\'ON 3: AN\'ALISIS — M\'etodo de Euler para EDOs
 % ============================================================
 
-\section{Análisis: Método de Euler para ecuaciones diferenciales}
+\section{An\'alisis: M\'etodo de Euler para ecuaciones diferenciales}
 
-El método de Euler explícito aproxima la solución de un problema de valor inicial
-$y' = f(t, y)$, $y(t_0) = y_0$, mediante la iteración:
+El m\'etodo de Euler expl\'{\i}cito aproxima la soluci\'on de un problema de valor inicial
+$y' = f(t, y)$, $y(t_0) = y_0$, mediante la iteraci\'on:
 \[
     y_{n+1} = y_n + h \cdot f(t_n, y_n)
 \]
-Aplicamos el método a $y' = y$, $y(0) = 1$, cuya solución exacta es $y(t) = e^t$.
-Evaluamos en $t = 1$, donde la solución exacta vale $e \approx 2.718282$.
+Aplicamos el m\'etodo a $y' = y$, $y(0) = 1$, cuya soluci\'on exacta es $y(t) = e^t$.
+Evaluamos en $t = 1$, donde la soluci\'on exacta vale $e \approx 2.718282$.
 
 \begin{equation}
     g(t, y) = y
@@ -323,7 +315,7 @@ Evaluamos en $t = 1$, donde la solución exacta vale $e \approx 2.718282$.
 \end{equation}
 
 \begin{algorithm}
-\caption{Método de Euler para $y' = y$, $y(0) = 1$}
+\caption{M\'etodo de Euler para $y' = y$, $y(0) = 1$}
 \begin{algorithmic}
     \STATE $t = 0$
     \STATE $y = y_0$
@@ -335,26 +327,25 @@ Evaluamos en $t = 1$, donde la solución exacta vale $e \approx 2.718282$.
 \end{algorithmic}
 \end{algorithm}
 
-La aproximación de $e = y(1)$ obtenida por el método de Euler con paso $h = 0.01$ es:
+La aproximaci\'on de $e = y(1)$ obtenida por el m\'etodo de Euler con paso $h = 0.01$ es:
 
 \begin{equation}
     y =
-    2.704814
     \label{eq:res:y}
 \end{equation}
 
 % ============================================================
-% SECCIÓN 4: ESTADÍSTICA — Número combinatorio
+% SECCI\'ON 4: ESTAD\'ISTICA — N\'umero combinatorio
 % ============================================================
 
-\section{Estadística: Número combinatorio}
+\section{Estad\'{\i}stica: N\'umero combinatorio}
 
-El número combinatorio $\binom{n}{k}$ cuenta el número de subconjuntos de tamaño
+El n\'umero combinatorio $\binom{n}{k}$ cuenta el n\'umero de subconjuntos de tama\~no
 $k$ de un conjunto de $n$ elementos. Se calcula mediante:
 \[
     \binom{n}{k} = \frac{n!}{k! \cdot (n-k)!}
 \]
-Calculamos $\binom{10}{3} = 120$ mediante el cálculo iterativo de factoriales.
+Calculamos $\binom{10}{3} = 120$ mediante el c\'alculo iterativo de factoriales.
 
 \begin{equation}
     n = 10
@@ -367,7 +358,7 @@ Calculamos $\binom{10}{3} = 120$ mediante el cálculo iterativo de factoriales.
 \end{equation}
 
 \begin{algorithm}
-\caption{Cálculo de $\binom{n}{k}$ mediante factoriales iterativos}
+\caption{C\'alculo de $\binom{n}{k}$ mediante factoriales iterativos}
 \begin{algorithmic}
     \STATE $fn = 1$
     \STATE $i = 1$
@@ -392,21 +383,20 @@ Calculamos $\binom{10}{3} = 120$ mediante el cálculo iterativo de factoriales.
 \end{algorithmic}
 \end{algorithm}
 
-El número combinatorio $\binom{10}{3}$ calculado por el programa es:
+El n\'umero combinatorio $\binom{10}{3}$ calculado por el programa es:
 
 \begin{equation}
     \binom{10}{3} =
-    120.000000
     \label{eq:res:nc}
 \end{equation}
 
 % ============================================================
-% SECCIÓN 5: BIOLOGÍA MATEMÁTICA — Lotka-Volterra
+% SECCI\'ON 5: BIOLOG\'IA MATEM\'ATICA — Lotka-Volterra
 % ============================================================
 
-\section{Biología matemática: Sistema de Lotka-Volterra}
+\section{Biolog\'{\i}a matem\'atica: Sistema de Lotka-Volterra}
 
-El sistema de Lotka-Volterra modela la dinámica de poblaciones depredador-presa:
+El sistema de Lotka-Volterra modela la din\'amica de poblaciones depredador-presa:
 \[
 \left \{
 \begin{array}{rrrr}
@@ -415,9 +405,9 @@ El sistema de Lotka-Volterra modela la dinámica de poblaciones depredador-presa
 \end{array}
 \right .
 \]
-donde $x$ es la población de presas, $y$ la de depredadores, y $\alpha$, $\beta$,
-$\delta$, $\gamma$ son parámetros del modelo. Aplicamos Euler explícito con los
-parámetros clásicos $\alpha = 1.0$, $\beta = 0.1$, $\delta = 0.075$, $\gamma = 1.5$,
+donde $x$ es la poblaci\'on de presas, $y$ la de depredadores, y $\alpha$, $\beta$,
+$\delta$, $\gamma$ son par\'ametros del modelo. Aplicamos Euler expl\'{\i}cito con los
+par\'ametros cl\'asicos $\alpha = 1.0$, $\beta = 0.1$, $\delta = 0.075$, $\gamma = 1.5$,
 condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T = 10$.
 
 \begin{equation}
@@ -461,7 +451,7 @@ condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T
 \end{equation}
 
 \begin{algorithm}
-\caption{Euler explícito para el sistema de Lotka-Volterra}
+\caption{Euler expl\'{\i}cito para el sistema de Lotka-Volterra}
 \begin{algorithmic}
     \STATE $t_{LV} = 0$
     \WHILE{$t_{LV} < T_{LV}$}
@@ -475,17 +465,15 @@ condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T
 \end{algorithmic}
 \end{algorithm}
 
-Las poblaciones aproximadas en $t = 10$ obtenidas por el método de Euler son:
+Las poblaciones aproximadas en $t = 10$ obtenidas por el m\'etodo de Euler son:
 
 \begin{equation}
     x_{LV} =
-    7.383307
     \label{eq:res:xlv}
 \end{equation}
 
 \begin{equation}
     y_{LV} =
-    11.699475
     \label{eq:res:ylv}
 \end{equation}
 
