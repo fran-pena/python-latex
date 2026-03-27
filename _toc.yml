@@ -2,19 +2,19 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro
+root:  pages/intro
 chapters:
-- file: celdas
+- file:  pages/celdas
   sections:
-    - file: celdas1
-    - file: celdas2
-- file: sympy
+    - file:  pages/celdas1
+    - file:  pages/celdas2
+- file:  pages/sympy
   sections:
-    - file: sympy1
-- file: acceso
+    - file:  pages/sympy1
+- file:  pages/acceso
   sections:
-    - file: acceso1
-- file: algor
+    - file:  pages/acceso1
+- file:  pages/algor
   sections:
-    - file: algor1
-- file: apendice1
+    - file:  pages/algor1
+- file:  pages/apendice1
