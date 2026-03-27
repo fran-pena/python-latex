@@ -1,0 +1,4 @@
+[project]
+dependencies = [
+    "pylatexenc>=2.10",
+]

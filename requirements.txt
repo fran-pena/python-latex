@@ -1,3 +1,9 @@
+# Jupyter Book
 jupyter-book
 matplotlib
 numpy
+sympy
+antlr4-python3-runtime==4.11
+
+# compylatex como paquete local
+-e ./compylatex

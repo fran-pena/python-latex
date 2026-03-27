@@ -97,7 +97,7 @@ run: |
 
 - Modificar algún IPYNB de la rama dev con Google Colab.
 - La primera vez, se debe comprobar que se ha creado la rama gh-pages.
-- Tras la creación autom´tica de la rama gh-pages, ir a Settings - Pages - Build and Depolyment - Source, escoger Deploy from a branch y escoger gh-pages.
+- Tras la creación automática de la rama gh-pages, ir a Settings - Pages - Build and Depolyment - Source, escoger Deploy from a branch y escoger gh-pages.
 - Ir al menú (superior) Actions - All workflows. Se listan todas las compilaciones generadas. Al entrar en cada una se puede ver si ha habido errores.
 
 ## Lectura del HTML en la nube
