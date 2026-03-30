@@ -4,17 +4,12 @@
 format: jb-book
 root:  pages/intro
 chapters:
-- file:  pages/celdas
+- file:  pages/preliminares
   sections:
     - file:  pages/celdas1
     - file:  pages/celdas2
-- file:  pages/sympy
-  sections:
     - file:  pages/sympy1
-- file:  pages/acceso
-  sections:
     - file:  pages/acceso1
-- file:  pages/algor
-  sections:
     - file:  pages/algor1
+- file:  pages/compylatex
 - file:  pages/apendice1

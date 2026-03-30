@@ -11,9 +11,9 @@ kernelspec:
   language: python
   name: python3
 ---
-# Ejemplo de ejecucion de SymPy
+# Preliminares
 
-Este ejemplo presenta las siguientes partes:
+Este apartado presenta las herramientas existentes en Jupyter Book para ejecución de celdas y/o ecuaciones LaTex.
 
 ```{tableofcontents}
 ```

@@ -1,8 +1,12 @@
 # Jupyter Book
 jupyter-book<2
+jupyter-cache
+plotly
+ipywidgets
 matplotlib
 numpy
 sympy
+pandas
 antlr4-python3-runtime==4.11
 
 # compylatex como paquete local
