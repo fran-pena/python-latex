@@ -1,0 +1,695 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>APÉNDICE: cómo trabajar en el proyecto &#8212; python-latex</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/apendice1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="El paquete compylatex" href="compylatex.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="python-latex - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="python-latex - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Compilando LaTeX desde Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="preliminares.html">Preliminares</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="celdas1.html">Ejecución de celdas de código</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celdas2.html">Uso de variables de otras celdas de código</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sympy1.html">Procesar LaTex con SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acceso1.html">Acceso a otras celdas del Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algor1.html">Procesar algoritmos en LaTeX</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="compylatex.html">El paquete compylatex</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">APÉNDICE: cómo trabajar en el proyecto</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fran-pena/python-latex" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fran-pena/python-latex/issues/new?title=Issue%20on%20page%20%2Fpages/apendice1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/pages/apendice1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>APÉNDICE: cómo trabajar en el proyecto</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">APÉNDICE: cómo trabajar en el proyecto</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#descarga">Descarga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificacion-del-repositorio">Modificación del repositorio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajo-en-local">Trabajo en local</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modificacion-del-codigo">Modificación del código</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-html">Construcción del HTML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registrar-el-kernel-del-venv">Registrar el kernel del venv</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajo-en-la-nube">TRabajo en la nube</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-html-en-la-nube">Construcción del HTML  en la nube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">ToDo</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="apendice-como-trabajar-en-el-proyecto">
+<h1>APÉNDICE: cómo trabajar en el proyecto<a class="headerlink" href="#apendice-como-trabajar-en-el-proyecto" title="Link to this heading">#</a></h1>
+<section id="descarga">
+<h2>Descarga<a class="headerlink" href="#descarga" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Crear cuenta en <a class="reference external" href="https://github.com">github.com</a>.</p></li>
+<li><p>Solicitar unirse al proyecto.</p></li>
+</ul>
+<p><strong>Observación</strong>: proyecto se ha generado con las siguientes propiedades:</p>
+<ul class="simple">
+<li><p>Public</p></li>
+<li><p>Add README</p></li>
+<li><p>Add .gitignore, Python</p></li>
+<li><p>Add license, GPL3</p></li>
+<li><p>Creada rama dev en el despegable de ramas</p></li>
+</ul>
+</section>
+<section id="modificacion-del-repositorio">
+<h2>Modificación del repositorio<a class="headerlink" href="#modificacion-del-repositorio" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Los cambios se hacen en una <em>feature</em> y se hace <em>merge</em> a <em>dev</em>.</p></li>
+</ul>
+</section>
+<section id="paso-de-los-cambios-a-la-rama-main">
+<h2>Paso de los cambios a la rama main<a class="headerlink" href="#paso-de-los-cambios-a-la-rama-main" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Tras validar los cambios de <em>dev</em>, en GitHub ir al menú (superior) Pull requests</p></li>
+<li><p>Escoger New pull request</p></li>
+<li><p>En base selecciona main</p></li>
+<li><p>En compare selecciona dev</p></li>
+<li><p>Se muestran los cambios entre dev y main. Si todo está correcto, pulsar Create pull request</p></li>
+<li><p>Se añade un mensaje de descripción (opcional) y luego pulsa Merge pull request</p></li>
+<li><p>Si no hay conflictos, confirma con Confirm merge.</p></li>
+<li><p>Si la compilación está ligada a la rama main, en Actions se observará un nuevo workflow que actualizará el HTML.</p></li>
+</ul>
+</section>
+<section id="trabajo-en-local">
+<h2>Trabajo en local<a class="headerlink" href="#trabajo-en-local" title="Link to this heading">#</a></h2>
+<section id="modificacion-del-codigo">
+<h3>Modificación del código<a class="headerlink" href="#modificacion-del-codigo" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Clonar repositorio: Code, Copy URL</p></li>
+<li><p>Instalar Git: <a class="reference external" href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p></li>
+<li><p>Abrir CMD, ir a la carpeta de proyecto: git clone <a class="github reference external" href="https://github.com/fran-pena/python-latex.git">fran-pena/python-latex.git</a></p></li>
+<li><p>Cambiar a la rama dev, git checkout dev</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>, modificar código</p></li>
+<li><p>Actualizar repositorio en la nube: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code></p></li>
+</ul>
+</section>
+<section id="construccion-del-html">
+<h3>Construcción del HTML<a class="headerlink" href="#construccion-del-html" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Instalar Python: <a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p></li>
+<li><p>En un CMD, ir a una carpeta; por ejemplo, el HOME del usuario, <em>C:\Users\<usuario>\</em></p></li>
+<li><p>Crear entorno venv, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">jupyter_venv</span></code></p></li>
+<li><p>Entrar en el entorno, <code class="docutils literal notranslate"><span class="pre">jupyter_venv/Scripts/activate</span></code></p></li>
+<li><p>En la carpeta del proyecto, instalar los requisitos:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>En el proyecto, crear el fichero <em>.vscode/settings.json</em> con el contenido:</p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python.defaultInterpreterPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/Users/&lt;usuario&gt;/jupyter_venv/Scripts/python.exe&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;python.terminal.activateEnvironment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>donde <usuario> es el usuario en el que se ha creado el venv. Comprobar que es la rtuta correcta.</p>
+<ul class="simple">
+<li><p>Ejecutar: <code class="docutils literal notranslate"><span class="pre">jupyter-book</span> <span class="pre">build</span> <span class="pre">.</span> <span class="pre">--all</span></code></p></li>
+</ul>
+</section>
+<section id="registrar-el-kernel-del-venv">
+<h3>Registrar el kernel del venv<a class="headerlink" href="#registrar-el-kernel-del-venv" title="Link to this heading">#</a></h3>
+<p>Si se trabaja con VS Code, es recomendable registrar el kernel del venv:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>jupyter_venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>ipykernel
+python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="o">=</span>jupyter_venv<span class="w"> </span>--display-name<span class="o">=</span><span class="s2">&quot;Python (jupyter_venv)&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="trabajo-en-la-nube">
+<h2>TRabajo en la nube<a class="headerlink" href="#trabajo-en-la-nube" title="Link to this heading">#</a></h2>
+<section id="modificaciones-en-la-nube">
+<h3>Modificaciones en la nube<a class="headerlink" href="#modificaciones-en-la-nube" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ir a <a class="reference external" href="https://colab.research.google.com/">https://colab.research.google.com/</a></p></li>
+<li><p>En Abrir cuaderno - GitHub, escribir: nombre de usuario de Github, repositorio python-latex y rama dev.</p></li>
+<li><p>Hacer modificaciones en el fichero IPYNB</p></li>
+<li><p>Ir a Archivo - Guardar (no pulsar en Gist!), dar permisos para acceder a la cuenta de GitHub.</p></li>
+</ul>
+<p>Las personas que no pertenecen al proyecto, aún pueden observar los IPYNB de un proyecto público obteniendo su dirección URL y sustituyendo el inicio <a class="github reference external" href="https://github.com/"></a> por <a class="reference external" href="https://colab.research.google.com/github/">https://colab.research.google.com/github/</a>. Por ejemplo, sustituyendo:</p>
+<p><a class="github reference external" href="https://github.com/fran-pena/python-latex/blob/dev/Parte1.ipynb">fran-pena/python-latex</a></p>
+<p>por</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/fran-pena/python-latex/blob/dev/Parte1.ipynb">https://colab.research.google.com/github/fran-pena/python-latex/blob/dev/Parte1.ipynb</a></p>
+</section>
+<section id="construccion-del-html-en-la-nube">
+<h3>Construcción del HTML  en la nube<a class="headerlink" href="#construccion-del-html-en-la-nube" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Crear en el repositorio el fichero <em>.github/workflows/build-book.yml</em>. Las partes principales son:</p></li>
+<li><p>Indicación de la rama que desencadena la compilación del HTML (cambiar temporalmente a dev para las pruebas)</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p><strong>Atención:</strong> GitHub Actions solo permite 2.000 minutos al mes; cada compilación es un minuto. Para evitarlas, volver a compilación desde main.</p>
+<ul class="simple">
+<li><p>Indicación de los paquetes Python a instalar:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>run:<span class="w"> </span><span class="p">|</span>
+<span class="w">  </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pip
+<span class="w">  </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter-book
+<span class="w">  </span>pip<span class="w"> </span>install<span class="w"> </span>sympy
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Modificar algún IPYNB de la rama dev con Google Colab.</p></li>
+<li><p>La primera vez, se debe comprobar que se ha creado la rama gh-pages.</p></li>
+<li><p>Tras la creación automática de la rama gh-pages, ir a Settings - Pages - Build and Depolyment - Source, escoger Deploy from a branch y escoger gh-pages.</p></li>
+<li><p>Ir al menú (superior) Actions - All workflows. Se listan todas las compilaciones generadas. Al entrar en cada una se puede ver si ha habido errores.</p></li>
+</ul>
+</section>
+<section id="lectura-del-html-en-la-nube">
+<h3>Lectura del HTML en la nube<a class="headerlink" href="#lectura-del-html-en-la-nube" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Si la compilación fue existosa, el resultado se puede ver en <a class="reference external" href="https://fran-pena.github.io/python-latex/intro.html">https://fran-pena.github.io/python-latex/intro.html</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="todo">
+<h1>ToDo<a class="headerlink" href="#todo" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Quarto permite latex más complejo que Jupyter NB.</p>
+<ul>
+<li><p>Pro: Posit Cloud es equivalente a Google Colab</p></li>
+<li><p>Con: No he conseguido usar el paquete algorithmic</p></li>
+<li><p>Con: los fichero qmd no son interactivos: se editan como md y se compilan en html o PDF.</p></li>
+<li><p>Con: el latex complejo parece solo compilarse para PDF, no para HTML (inutiliza la compartición por Google Pages), a menos que solo se cuegue el PDF.</p></li>
+</ul>
+</li>
+<li><p>Como alternativa, leer ficheros tex, identificar ecuaciones por label y generar el resultado.</p></li>
+<li><p>TODO: pensar cómo organizar la salida:</p>
+<ul>
+<li><p>valores: tener una ecuación $<span class="math notranslate nohighlight">\(v\label{eq:res:1}\)</span>$, detectar el v y poner v = … (identificar si es escalar, vector o matrix)</p></li>
+<li><p>Gráficas: tener una figure, detectar el label{plot:res:…} y leer la ruta del fichero y ponerlo ahí. Dentro de la gráfica debemos poner un comentario tipo %plot(u,v)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pages"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="compylatex.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">El paquete compylatex</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">APÉNDICE: cómo trabajar en el proyecto</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#descarga">Descarga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modificacion-del-repositorio">Modificación del repositorio</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paso-de-los-cambios-a-la-rama-main">Paso de los cambios a la rama main</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajo-en-local">Trabajo en local</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modificacion-del-codigo">Modificación del código</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-html">Construcción del HTML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registrar-el-kernel-del-venv">Registrar el kernel del venv</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trabajo-en-la-nube">TRabajo en la nube</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modificaciones-en-la-nube">Modificaciones en la nube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-html-en-la-nube">Construcción del HTML  en la nube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lectura-del-html-en-la-nube">Lectura del HTML en la nube</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">ToDo</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fran Pena
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
