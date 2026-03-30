@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\begin{document}
+
+\section{Cálculo de raíces}
+
+\begin{equation}
+f(x) = \sqrt{x - 2}
+\label{eq:calc:f}
+\end{equation}
+
+\begin{equation}
+a = 0
+\label{eq:calc:a}
+\end{equation}
+
+\begin{equation}
+b = 3
+\label{eq:calc:b}
+\end{equation}
+
+\begin{algorithm}
+\caption{Método de dicotomía}
+\label{alg:calc:dicotomia}
+\begin{algorithmic}
+\STATE tol = 1e-6
+\WHILE{b - a > tol}
+    \STATE c = (a + b)/2
+    \IF{f(c) > 0}
+        \STATE b = c
+    \ELSE
+        \STATE a = c
+    \ENDIF
+\ENDWHILE
+\RETURN c
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}
