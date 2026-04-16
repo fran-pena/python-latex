@@ -24,7 +24,7 @@ def extract_text_from_node(node, cond = False):
                 else:
                     str += "{" + extract_text_from_node(arg) + "}"
                 
-        return str
+        return str 
     # Nodos con subnodos
     if hasattr(node, 'nodelist'):
         text_parts = []
@@ -77,7 +77,7 @@ def parse_eq_block(env_node,namespace):
 
     def extract_label(env_node):
         """
-        Extrae el texto dentro de r"\\label{...}"
+        Extrae el texto dentro de \label{...}
         """
         for n in env_node.nodelist:
             if hasattr(n, "macroname") and n.macroname == "label":

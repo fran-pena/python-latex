@@ -22,11 +22,6 @@ def compylatex(fichero_latex, output=None):
     namespace = {"math": math, "__latex_alias__": {}}  # Los alias los guardaremos en oculto para que no se confundan con el resto de variables
 
 # -------------------------------------------------------------------
-# Reinsertar resultado en tex_resultado
-# -------------------------------------------------------------------
-
-
-# -------------------------------------------------------------------
 # Extraer entornos con latexwalker
 # -------------------------------------------------------------------
     walker = LatexWalker(tex)
@@ -113,16 +108,6 @@ def find_algorithmic_and_equation_nodes(nodes):
     
     search_recursive(nodes)
     return env_nodes
-
-    
-
-def parse_algorithmic(nodelist):  # AÑADIR LA FUNCIÓN DE RECORRER Y APLICAR LA FUNCIÓN CORRESP SEGUN SEA ALG O EQ
-    """
-    Wrapper que parsea todo el nodelist de un environment algorithmic.
-    Devuelve la lista de sentencias (estructura anidada).
-    """
-    stmts, _ = parse_alg_block(nodelist, namespace, 0, end_tokens=None)
-    return stmts
 
 
 # -------------------------------------------------------------------

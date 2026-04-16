@@ -1,5 +1,25 @@
 import re
 
+
+def replace_aliases(expr, namespace):
+    """
+    Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"].
+    """
+    if "__latex_alias__" not in namespace:
+        return expr
+
+    names = namespace["__latex_alias__"]
+
+    # Ordenar alias del más largo al más corto para evitar colisiones
+    sorted_names = sorted(names.keys(), key=len, reverse=True)
+
+    for name in sorted_names:
+        alias = names[name]   # alias que se le da en el namespace
+        expr = expr.replace(name, alias)
+
+    return expr
+
+
 def tex_to_python(expr):
     """
     Convierte expresiones matemáticas en estilo LaTeX a expresiones válidas en Python,
@@ -72,16 +92,17 @@ def tex_to_python(expr):
         expr = expr.replace(latex, py)
 
 
+
     # =================================
-    # 4. Sustituir {  } por ( )
+    # 4. Valores absolutos |x| → abs(x)
+    # =================================
+    expr = re.sub(r"\|(.*?)\|", r"abs(\1)", expr)
+    
+    # =================================
+    # 5. Sustituir {  } por ( )
     # =================================
     expr = expr.replace("{", "(").replace("}", ")")
 
-
-    # =================================
-    # 5. Valores absolutos |x| → abs(x)
-    # =================================
-    expr = re.sub(r"\|(.*?)\|", r"abs(\1)", expr)
 
 
     # =================================
@@ -90,65 +111,8 @@ def tex_to_python(expr):
     expr = re.sub(r"\s+", " ", expr).strip()
 
 
-    # =================================
-    # 7. Letras griegas  (No están pi, Pi, Sigma)
-    # =================================
-    griegas = {
-        r"\alpha": "alpha",
-        r"\beta": "beta",
-        r"\gamma": "gamma",
-        r"\delta": "delta",
-        r"\epsilon": "epsilon",
-        r"\zeta": "zeta",
-        r"\eta": "eta",
-        r"\theta": "theta",
-        r"\iota": "iota",
-        r"\kappa": "kappa",
-        r"\lambda": "lambda",
-        r"\mu": "mu",
-        r"\nu": "nu",
-        r"\xi": "xi",
-        r"\rho": "rho",
-        r"\sigma": "sigma",
-        r"\tau": "tau",
-        r"\upsilon": "upsilon",
-        r"\phi": "phi",
-        r"\chi": "chi",
-        r"\psi": "psi",
-        r"\omega": "omega",
-        # Mayúscula
-        r"\Gamma": "Gamma",
-        r"\Delta": "Delta",
-        r"\Theta": "Theta",
-        r"\Lambda": "Lambda",
-        r"\Xi": "Xi",
-        r"\Phi": "Phi",
-        r"\Psi": "Psi",
-        r"\Omega": "Omega",
-    }
-    for latex, py in griegas.items():
-        expr = expr.replace(latex, py)
-
     return expr
 
-
-def replace_aliases(expr, namespace):
-    """
-    Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"].
-    """
-    if "__latex_alias__" not in namespace:
-        return expr
-
-    names = namespace["__latex_alias__"]
-
-    # Ordenar alias del más largo al más corto para evitar colisiones
-    sorted_names = sorted(names.keys(), key=len, reverse=True)
-
-    for name in sorted_names:
-        alias = names[name]   # alias que se le da en el namespace
-        expr = expr.replace(name, alias)
-
-    return expr
 
 def tex_to_python_with_alias(expr, namespace):
     """
