@@ -22,13 +22,13 @@ f(x) = x \cdot \ln(2)
 \end{equation}
 
 \begin{equation}
-a = -1
-\label{eq:calc:a}
+a_1 = -1
+\label{eq:calc:a1}
 \end{equation}
 
 \begin{equation}
-b = 10
-\label{eq:calc:b}
+a_2 = 10
+\label{eq:calc:a2}
 \end{equation}
 
 \begin{equation}
@@ -39,24 +39,26 @@ b = 10
 \begin{algorithm}
 \caption{M\'etodo de dicotom\'{\i}a}
 \begin{algorithmic}
-\label{alg:calc:c}
-\WHILE{$b - a > tol_{dic}$}
-    \STATE $c = (a + b)/2$
-    \IF{$f(a) \cdot f(c) < 0$}
-        \STATE $b = c$
-    \ELSE
-        \STATE $a = c$
-    \ENDIF
-\ENDWHILE
-\RETURN $c$
+    \label{alg:calc:a3}
+    \WHILE{$a_2 - a_1 > tol_{dic}$}
+        \STATE $a_3 = (a_1 + a_2)/2$
+        \IF{$f(a_1) \cdot f(a_3) < 0$}
+            \STATE $a_2 = a_3$
+        \ELSE
+            \STATE $a_1 = a_3$
+        \ENDIF
+    \ENDWHILE
+    \RETURN $a_3$
 \end{algorithmic}
 \end{algorithm}
 
+
 \begin{equation}
-    c = 
+    a_3 = 
     -0.000000
-    \label{eq:res:c}
+    \label{eq:res:a3}
 \end{equation}
+
 
 \section{C\'alculo de soluciones de $x^a + y^b = z^c$}
 
