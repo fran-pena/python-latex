@@ -47,6 +47,18 @@ def extract_text_from_node(node, cond = False):
     #    return node.latex_verbatim()
     else:
         return ""
+    
+
+#Función para extraer la label
+def extract_label(env_node):
+        """
+        Extrae el texto dentro de \label{...}
+        """
+        for n in env_node.nodelist:
+            if hasattr(n, "macroname") and n.macroname == "label":
+                label = extract_text_from_node(n.nodeargd)
+                return label
+        return None
         
 # -------------------------------------------------------------------
 # PARSEAR ENTORNO EQUATION
@@ -75,15 +87,6 @@ def parse_eq_block(env_node,namespace):
                 return str     
             str += extract_text_from_node(n)
 
-    def extract_label(env_node):
-        """
-        Extrae el texto dentro de \label{...}
-        """
-        for n in env_node.nodelist:
-            if hasattr(n, "macroname") and n.macroname == "label":
-                label = extract_text_from_node(n.nodeargd)
-                return label
-        return None
     
     def extract_left_right(env_node):
         """
@@ -97,10 +100,10 @@ def parse_eq_block(env_node,namespace):
         left, right = full.split("=", 1)
         return left.strip(), right.strip()
     
-    # 1. Extraer label
+    # Extraer label
     label = extract_label(env_node)
 
-    # 2. Extraer left y right
+    # Extraer left y right
     left, right = extract_left_right(env_node)
 
     name = left  # lo que el usuario escribió realmente
@@ -139,7 +142,7 @@ def parse_eq_block(env_node,namespace):
     alias = label.split(":")[2] if label else left  # si no hay label, usamos left literal
     #si es cálculo o resultado
     type = label.split(":")[1]  if label else "calc"
-
+ 
     value = tex_to_python_with_alias(right,namespace)
 
     # intentar evaluar numéricamente
@@ -169,6 +172,8 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
     (el END token encontrado) o len(nodelist) si se llegó al final.
     stmts es una lista de instrucciones tipo dict.
     """
+    
+    
     if end_tokens is None:
         end_tokens = []
 
@@ -176,6 +181,28 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
         nodelist = alg_node.nodelist
     else:
         nodelist = alg_node
+
+    # Función para extraer el nombre de la(s) variable(s) de salida 
+    def _find_return_vars(nodelist, namespace):
+        """Extrae las variables del \RETURN del algoritmo."""
+        for i, node in enumerate(nodelist):
+            if hasattr(node, "macroname") and node.macroname.upper() == "RETURN":
+                if i + 1 < len(nodelist):
+                    arg = extract_text_from_node(nodelist[i + 1])
+                    return [v.strip() for v in tex_to_python_with_alias(arg, namespace).split(",")]
+        return []
+
+    # Registrar aliases del \label del algoritmo antes de parsear
+    if start == 0:  # solo en la llamada raíz, no en recursiones
+        label = extract_label(alg_node) 
+        if label:
+            parts = label.split(":")
+            # Buscar el \RETURN para obtener los nombres de variables
+            nameres = _find_return_vars(nodelist, namespace)
+            aliases = [a.strip() for a in parts[2].split(",")]
+            for name, alias in zip(nameres, aliases):
+                namespace["__latex_alias__"][name] = alias
+
     stmts = []
     i = start
     L = len(nodelist)
@@ -216,7 +243,8 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
                     nxt = nodelist[i + 1]
                     arg = extract_text_from_node(nxt)
                     i += 1  # consumimos el argumento
-                stmts.append({"type": "return", "expr": tex_to_python_with_alias(arg.strip(),namespace)})
+                    res = tex_to_python_with_alias(arg.strip(),namespace)
+                stmts.append({"type": "return", "expr": res})
                 continue
 
 

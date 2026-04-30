@@ -91,13 +91,11 @@ def tex_to_python(expr):
     for latex, py in oper.items():
         expr = expr.replace(latex, py)
 
-
-
     # =================================
     # 4. Valores absolutos |x| → abs(x)
     # =================================
     expr = re.sub(r"\|(.*?)\|", r"abs(\1)", expr)
-    
+
     # =================================
     # 5. Sustituir {  } por ( )
     # =================================

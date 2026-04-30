@@ -25,6 +25,7 @@ def compylatex(fichero_latex, output=None):
 # Extraer entornos con latexwalker
 # -------------------------------------------------------------------
     walker = LatexWalker(tex)
+    from pprint import pprint
     nodes, _, _ = walker.get_latex_nodes()
     
     substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las     posiciones en el nuevo documento
@@ -32,6 +33,7 @@ def compylatex(fichero_latex, output=None):
     for node in env_nodes:
         if node.envname == "algorithmic":
             print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
+            #print(node)
             # Convertir el entorno algorithmic a una estructura jerárquica
             algorithm, _ = parse_alg_block(node, namespace)
             print("Ejecutando algoritmo:")
@@ -41,7 +43,10 @@ def compylatex(fichero_latex, output=None):
             print(f"\nResultado del algoritmo: {name} = {res:.6f}")
         if node.envname == "equation":
             print(f"\nEncontrado entorno equation en posición {node.pos}")
+            #print(node)
             var_dict = parse_eq_block(node,namespace)
+            from pprint import pprint
+            pprint(var_dict)
     
             if var_dict["type"] == "res":
                 # Es un resultado: insertar el valor actual del namespace en tex_resultado

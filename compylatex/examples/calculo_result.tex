@@ -38,8 +38,8 @@ b = 10
 
 \begin{algorithm}
 \caption{M\'etodo de dicotom\'{\i}a}
-\label{alg:calc:dicotomia}
 \begin{algorithmic}
+\label{alg:calc:c}
 \WHILE{$b - a > tol_{dic}$}
     \STATE $c = (a + b)/2$
     \IF{$f(a) \cdot f(c) < 0$}
@@ -86,8 +86,8 @@ max = 10
 
 \begin{algorithm}
 \caption{N\'umero de soluciones}
-\label{alg:calc:numsols}
 \begin{algorithmic}
+\label{alg:calc:sols}
     \STATE sols = 0
     \STATE z = 1
     \WHILE{$z \leq max$}
@@ -119,8 +119,8 @@ max = 10
 
 \begin{algorithm}
 \caption{Ejemplo de un algoritmo con ELSIFs anidados}
-\label{alg:calc:Ejemplo con ELSIF}
 \begin{algorithmic}
+\label{alg:calc:j}
         \STATE $i = 10$
         \STATE $j = \sqrt{i^2 + 5}$
         \IF{$i \ge 5$}
@@ -189,6 +189,7 @@ Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx
 \begin{algorithm}
 \caption{M\'etodo de Newton-Raphson para $f(x) = x^3 - 2$}
 \begin{algorithmic}
+\label{alg:calc:x}
     \STATE $x = x_0$
     \WHILE{$\left|f(x)\right| > tol_{NR}$}
         \STATE $x = x - f(x) / df(x)$
@@ -253,6 +254,7 @@ Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
 \begin{algorithm}
 \caption{M\'etodo de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
 \begin{algorithmic}
+\label{alg:calc:x,y,z}
     \STATE $x = (10 + y_j - z_j)/5$
     \STATE $y = (11 - 2\cdot x_j + z_j)/8$
     \STATE $z = (3 + x_j - y_j)/4$
@@ -325,6 +327,7 @@ Evaluamos en $t = 1$, donde la soluci\'on exacta vale $e \approx 2.718282$.
 \begin{algorithm}
 \caption{M\'etodo de Euler para $y' = y$, $y(0) = 1$}
 \begin{algorithmic}
+\label{alg:calc:y}
     \STATE $t = 0$
     \STATE $y = y_0$
     \WHILE{$t < T$}
@@ -369,6 +372,7 @@ Calculamos $\binom{10}{3} = 120$ mediante el c\'alculo iterativo de factoriales.
 \begin{algorithm}
 \caption{C\'alculo de $\binom{n}{k}$ mediante factoriales iterativos}
 \begin{algorithmic}
+    \label{alg:calc:nc}
     \STATE $fn = 1$
     \STATE $i = 1$
     \WHILE{$i \leq n$}
@@ -463,6 +467,7 @@ condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T
 \begin{algorithm}
 \caption{Euler expl\'{\i}cito para el sistema de Lotka-Volterra}
 \begin{algorithmic}
+\label{alg:calc:xlv}
     \STATE $t_{LV} = 0$
     \WHILE{$t_{LV} < T_{LV}$}
         \STATE $dxdt = \alpha \cdot x_{LV} - \beta \cdot x_{LV} \cdot y_{LV}$
@@ -491,4 +496,3 @@ Las poblaciones aproximadas en $t = 10$ obtenidas por el m\'etodo de Euler son:
 
 
 \end{document}
-
