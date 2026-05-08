@@ -15,7 +15,7 @@
    python -m pip install -r requirements.txt
    ```
 
-## Construcción del HTMLa partir del Jupyter Book
+## Construcción del HTML a partir del Jupyter Book
 Veáse el [Apéndice](pages/apendice1.md).
 
 ## Enlace al HTML
