@@ -51,20 +51,19 @@ def extract_text_from_node(node, cond = False):
 
 #Función para extraer la label
 def extract_label(env_node):
-        """
-        Extrae el texto dentro de \label{...}
-        """
-        for n in env_node.nodelist:
-            if hasattr(n, "macroname") and n.macroname == "label":
-                label = extract_text_from_node(n.nodeargd)
-                return label
+    """Extrae el texto dentro de \label{...} de cualquier nodo entorno."""
+    if not hasattr(env_node, 'nodelist'):
         return None
+    for n in env_node.nodelist:
+        if hasattr(n, "macroname") and n.macroname == "label":
+            return extract_text_from_node(n.nodeargd)
+    return None
         
 # -------------------------------------------------------------------
 # PARSEAR ENTORNO EQUATION
 # -------------------------------------------------------------------
 
-def parse_eq_block(env_node,namespace):
+def parse_eq_block(env_node,namespace, label):
 
     """
     Procesa un entorno equation y devuelve un diccionario:
@@ -99,9 +98,6 @@ def parse_eq_block(env_node,namespace):
 
         left, right = full.split("=", 1)
         return left.strip(), right.strip()
-    
-    # Extraer label
-    label = extract_label(env_node)
 
     # Extraer left y right
     left, right = extract_left_right(env_node)
@@ -144,13 +140,11 @@ def parse_eq_block(env_node,namespace):
     type = label.split(":")[1]  if label else "calc"
  
     value = tex_to_python_with_alias(right,namespace)
-
-    # intentar evaluar numéricamente
-    # try:
-    #    value = eval(right, {"math": math})
-    # except Exception:
-        # si no se puede evaluar, lo guardamos como string python
-    #    value = right
+    
+    # almacenar el nombre para que se corresponda con el alias
+    name_key = name.split('(')[0].strip()
+    namespace["__latex_alias__"][name_key] = alias
+    
     return {
         #"type": "variable",
         "name": name,
@@ -336,3 +330,30 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
 
     # fin while
     return stmts, i
+
+
+def parse_env_node(node, namespace):
+    label = extract_label(node)
+    if label is None:
+        return None
+    
+    parts = label.split(":")
+    if len(parts) != 3 or parts[1] not in ("calc", "res"):
+        return None
+
+    if node.envname == "equation":
+        if parts[0] != "eq":
+            return None
+        return parse_eq_block(node, namespace, label)  # pasamos label
+    
+    elif node.envname == "algorithmic":
+        if parts[0] != "alg":
+            return None
+        stmts, _ = parse_alg_block(node, namespace)
+        return {
+            "type": parts[1],
+            "alias": parts[2],
+            "stmts": stmts
+        }
+    
+    return None

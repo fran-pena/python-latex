@@ -1,6 +1,6 @@
 import re
 import math
-from .parser import parse_eq_block, parse_alg_block
+from .parser import parse_env_node
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode
 
 
@@ -31,26 +31,20 @@ def compylatex(fichero_latex, output=None):
     substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las     posiciones en el nuevo documento
     env_nodes = find_algorithmic_and_equation_nodes(nodes)
     for node in env_nodes:
+        result = parse_env_node(node,namespace)
+        if result is None:
+            continue
+
         if node.envname == "algorithmic":
-            print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
-            #print(node)
+            # print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
             # Convertir el entorno algorithmic a una estructura jerárquica
-            algorithm, _ = parse_alg_block(node, namespace)
-            print("Ejecutando algoritmo:")
-            from pprint import pprint
-            pprint(algorithm)
-            name,res = ejecutar(algorithm, namespace)
-            print(f"\nResultado del algoritmo: {name} = {res:.6f}")
+            name, res = ejecutar(result["stmts"], namespace)
+            print(f"Resultado del algoritmo: {name} = {res:.6f}")
         if node.envname == "equation":
-            print(f"\nEncontrado entorno equation en posición {node.pos}")
-            #print(node)
-            var_dict = parse_eq_block(node,namespace)
-            from pprint import pprint
-            pprint(var_dict)
-    
-            if var_dict["type"] == "res":
+            # print(f"\nEncontrado entorno equation en posición {node.pos}")
+            if result["type"] == "res":
                 # Es un resultado: insertar el valor actual del namespace en tex_resultado
-                alias = var_dict["alias"]
+                alias = result["alias"]
                 if alias in namespace:
                     value = namespace[alias]
                     value_str = f"{value:.6f}" if isinstance(value, float) else str(value)
@@ -63,15 +57,13 @@ def compylatex(fichero_latex, output=None):
                     )
                     substitutions.append((node.pos, node.len, new_env))
                 else:
-                    print(f"Advertencia: '{alias}' no encontrado en namespace, no se inserta resultado")
+                    print(f"Advertencia: '{alias}' no encontrado en namespace")
             else:
                 # Es un cálculo o definición: ejecutar normalmente
-                code = var_dict["alias"] + "=" + var_dict["value"]
+                code = result["alias"] + "=" + result["value"]
                 print("Ejecutando:", code)
-                name_key = var_dict["name"].split('(')[0].strip()
-                namespace["__latex_alias__"][name_key] = var_dict["alias"]  # Almacenar el nombre para que se corresponda con el alias
-                exec(code, namespace)  # Almacenar variables y funciones en namespace
-            
+                exec(code, namespace)
+
     # --------------------------------------------------------------------
     # Sustituir resultados 
     # -------------------------------------------------------------------
