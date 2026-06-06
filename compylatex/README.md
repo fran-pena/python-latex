@@ -27,6 +27,9 @@ cd examples
 python -c "import compylatex as cl; cl.compylatex('calculo.tex', 'calculo_resultado.tex')"
 ```
 
+## Web
+La rama dev de este repositorio puede probarse en [compylatex.streamlit.app](https://compylatex.streamlit.app/).
+
 ## Requisitos
 
 - Python 3.10+
