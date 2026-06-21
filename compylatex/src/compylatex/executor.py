@@ -31,14 +31,21 @@ def compylatex(fichero_latex, output=None):
     substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las     posiciones en el nuevo documento
     env_nodes = find_algorithmic_and_equation_nodes(nodes)
     for node in env_nodes:
+        print(node.envname)
         result = parse_env_node(node,namespace)
         if result is None:
             continue
 
-        if node.envname == "algorithmic":
+        if node.envname == "algorithm":
             # print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
             # Convertir el entorno algorithmic a una estructura jerárquica
+            pprint(result["stmts"])
             name, res = ejecutar(result["stmts"], namespace)
+            print("RETURN =", name, res)
+            print("SOLS EN NS?", "sols" in namespace)
+
+            from pprint import pprint
+            pprint(namespace.keys())
             print(f"Resultado del algoritmo: {name} = {res:.6f}")
         if node.envname == "equation":
             # print(f"\nEncontrado entorno equation en posición {node.pos}")
@@ -50,7 +57,7 @@ def compylatex(fichero_latex, output=None):
                     value_str = f"{value:.6f}" if isinstance(value, float) else str(value)
                     env_text = tex[node.pos : node.pos + node.len]
                     new_env = re.sub(
-                        r'(=\s*)(\\label\{eq:res:' + re.escape(alias) + r'\})',
+                        r'(=\s*)(\\ \{eq:res:' + re.escape(alias) + r'\})',
                         r'\g<1>' + value_str + r'\n    \2',
                         env_text,
                         flags=re.DOTALL
@@ -92,7 +99,7 @@ def find_algorithmic_and_equation_nodes(nodes):
     def search_recursive(node_list):
         for node in node_list:
             # Si es un entorno equation o algorithmic, lo añadimos
-            if isinstance(node, LatexEnvironmentNode) and node.envname in ("equation", "algorithmic"):
+            if isinstance(node, LatexEnvironmentNode) and node.envname in ("equation", "algorithm"):
                 env_nodes.append(node)
             # Si el nodo tiene subnodos, buscar recursivamente
             if hasattr(node, 'nodelist') and node.nodelist: # Tiene atributo nodelist y no está vacío
@@ -126,5 +133,12 @@ def ejecutar(algo, ns):
                 ejecutar(step["body"], ns)
         elif step["type"] == "return":
             return step["expr"], ns[step["expr"]]
+        elif step["type"] == "repeat":
+            while True:
+                ejecutar(step["body"], ns)
+                if eval(step["cond"], ns):
+                    break
+        elif step["type"] == "print":
+            exec(f"print({step['expr']})", ns)
     return None
 

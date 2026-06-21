@@ -1,4 +1,6 @@
 from .converter import tex_to_python_with_alias
+import re
+from pylatexenc.latexwalker import LatexEnvironmentNode
 
 # Función para extraer recursivamente el texto de un nodelist
 def extract_text_from_node(node, cond = False): 
@@ -51,12 +53,22 @@ def extract_text_from_node(node, cond = False):
 
 #Función para extraer la label
 def extract_label(env_node):
-    """Extrae el texto dentro de \label{...} de cualquier nodo entorno."""
+    """Busca \\label{...} primero como hijo directo del nodo;
+    si no lo encuentra, busca dentro de un algorithmic anidado
+    (compatibilidad con label puesto tras \\begin{algorithmic})."""
     if not hasattr(env_node, 'nodelist'):
         return None
+    
     for n in env_node.nodelist:
         if hasattr(n, "macroname") and n.macroname == "label":
             return extract_text_from_node(n.nodeargd)
+    
+    for n in env_node.nodelist:
+        if isinstance(n, LatexEnvironmentNode) and n.envname == "algorithmic":
+            for sub in n.nodelist:
+                if hasattr(sub, "macroname") and sub.macroname == "label":
+                    return extract_text_from_node(sub.nodeargd)
+    
     return None
         
 # -------------------------------------------------------------------
@@ -324,6 +336,49 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
                 else:
                     i = idx
                 continue
+            # PRINT
+            elif name == "PRINT":
+                arg = ""
+                if (i + 1) < L:
+                    nxt = nodelist[i + 1]
+                    arg = extract_text_from_node(nxt)
+                    i += 1
+                stmts.append({"type": "print", "expr": tex_to_python_with_alias(arg.strip(), namespace)})
+                continue
+            # REPEAT
+            elif name == "REPEAT":
+                body, idx = parse_alg_block(nodelist, namespace, i + 1, end_tokens=["UNTIL"])
+                cond = ""
+                if idx + 1 < L:
+                    nxt = nodelist[idx + 1]
+                    cond = extract_text_from_node(nxt, cond=True)
+                stmts.append({"type": "repeat", "cond": tex_to_python_with_alias(cond.strip(), namespace), "body": body})
+                i = idx + 2
+                continue
+            # FOR
+            elif name == "FOR":
+                #Si es \FOR, tratarlo como si fuera un \WHILE
+                nxt = nodelist[i + 1]
+                for_text = extract_text_from_node(nxt)
+                # Parsear "i=1 to n" con regex
+                m = re.match(r'^\s*(\w+)\s*=\s*(.*?)\s*\\TO\s*(.*?)\s*$',for_text,re.IGNORECASE)
+                print(m)
+                var, start, end = m.group(1), m.group(2), m.group(3)
+                
+                body, idx = parse_alg_block(nodelist, namespace, i + 2, end_tokens=["ENDFOR"])
+                
+                init = {"type": "assign", "code": f"{var} = {tex_to_python_with_alias(start, namespace)}"} #variable por ej i
+                incr = {"type": "assign", "code": f"{var} = {var} + 1"}
+                loop = {"type": "while", "cond": f"{var} <= {tex_to_python_with_alias(end, namespace)}", "body": body + [incr]}
+                
+                stmts.append(init)
+                stmts.append(loop)
+                i = idx + 1
+                continue
+            # COMMENT
+            elif name == "COMMENT":
+                i += 1 
+                continue
 
         # si no es macro reconocible, simplemente saltar (o podrías registrar)
         i += 1
@@ -346,10 +401,21 @@ def parse_env_node(node, namespace):
             return None
         return parse_eq_block(node, namespace, label)  # pasamos label
     
-    elif node.envname == "algorithmic":
+    elif node.envname == "algorithm":
         if parts[0] != "alg":
             return None
-        stmts, _ = parse_alg_block(node, namespace)
+        subnode = None
+        for n in node.nodelist:
+            if isinstance(n, LatexEnvironmentNode) and n.envname == "algorithmic":
+                subnode = n
+                break
+
+        if subnode is None:
+            return None
+        stmts, _ = parse_alg_block(subnode, namespace)
+        print("Ejecutando algoritmo:")
+        from pprint import pprint
+        pprint(stmts)
         return {
             "type": parts[1],
             "alias": parts[2],

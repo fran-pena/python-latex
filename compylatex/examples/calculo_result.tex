@@ -200,7 +200,11 @@ Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx
 \end{algorithmic}
 \end{algorithm}
 
-La ra\'{\i}z aproximada de $f(x) = x^3 - 2$ obtenida por Newton-Raphson es:
+La ra\'{\i}z aproximada de 
+\begin{equation} % para comprobar que no se modifica
+    f(x) = x^3 - 2
+    \label{ecraices}
+\end{equation} obtenida por Newton-Raphson es:
 
 \begin{equation}
     x =
@@ -298,11 +302,11 @@ La soluci\'on aproximada del sistema obtenida por Jacobi es:
 
 \section{An\'alisis: M\'etodo de Euler para ecuaciones diferenciales}
 
-El m\'etodo de Euler expl\'{\i}cito aproxima la soluci\'on de un problema de valor inicial
-$y' = f(t, y)$, $y(t_0) = y_0$, mediante la iteraci\'on:
-\[
+El m\'etodo de Euler expl\'{\i}cito aproxima la soluci\'on de un problema de valor inicial $y' = f(t, y)$, $y(t_0) = y_0$, mediante la iteraci\'on:
+\begin{equation}
     y_{n+1} = y_n + h \cdot f(t_n, y_n)
-\]
+\end{equation}
+
 Aplicamos el m\'etodo a $y' = y$, $y(0) = 1$, cuya soluci\'on exacta es $y(t) = e^t$.
 Evaluamos en $t = 1$, donde la soluci\'on exacta vale $e \approx 2.718282$.
 

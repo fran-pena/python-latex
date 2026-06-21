@@ -45,9 +45,10 @@ def tex_to_python(expr):
         r"\ne": "!=",
         r"\lt": "<",
         r"\gt": ">",
-        r"\le": "<=",
+        r"\gets": "=",
         r"\ge": ">=",
-        r"\leftarrow": "="
+        r"\leftarrow": "=",
+        r"\le": "<="
     }
 
     # Aplicar reemplazos
@@ -101,10 +102,17 @@ def tex_to_python(expr):
     # =================================
     expr = expr.replace("{", "(").replace("}", ")")
 
+    # =================================
+    # 6. Sustituir conectores de algorithmic
+    # =================================
+    expr = re.sub(r'\\AND', ' and ', expr)
+    expr = re.sub(r'\\OR', ' or ', expr)
+    expr = re.sub(r'\\NOT', ' not ', expr)
+    expr = re.sub(r'\\XOR', ' ^ ', expr)
 
 
     # =================================
-    # 6. Normalizar espacios
+    # 7. Normalizar espacios
     # =================================
     expr = re.sub(r"\s+", " ", expr).strip()
 

@@ -38,8 +38,8 @@ a_2 = 10
 
 \begin{algorithm}
 \caption{M\'etodo de dicotom\'{\i}a}
+\label{alg:calc:a3}
 \begin{algorithmic}
-    \label{alg:calc:a3}
     \WHILE{$a_2 - a_1 > tol_{dic}$}
         \STATE $a_3 = (a_1 + a_2)/2$
         \IF{$f(a_1) \cdot f(a_3) < 0$}
@@ -87,8 +87,8 @@ max = 10
 
 \begin{algorithm}
 \caption{N\'umero de soluciones}
-\begin{algorithmic}
 \label{alg:calc:sols}
+\begin{algorithmic}
     \STATE sols = 0
     \STATE z = 1
     \WHILE{$z \leq max$}
@@ -119,8 +119,8 @@ max = 10
 
 \begin{algorithm}
 \caption{Ejemplo de un algoritmo con ELSIFs anidados}
-\begin{algorithmic}
 \label{alg:calc:j}
+\begin{algorithmic}
         \STATE $i = 10$
         \STATE $j = \sqrt{i^2 + 5}$
         \IF{$i \ge 5$}
@@ -161,7 +161,10 @@ max = 10
 \section{C\'alculo: M\'etodo de Newton-Raphson}
 
 El m\'etodo de Newton-Raphson permite aproximar ra\'{\i}ces de funciones diferenciables
-mediante la iteraci\'on $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+mediante la iteraci\'on 
+\begin{equation}
+    x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
+\end{equation}
 Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx 1.259921$.
 
 \begin{equation}
@@ -186,8 +189,8 @@ Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx
 
 \begin{algorithm}
 \caption{M\'etodo de Newton-Raphson para $f(x) = x^3 - 2$}
-\begin{algorithmic}
 \label{alg:calc:x}
+\begin{algorithmic}
     \STATE $x = x_0$
     \WHILE{$\left|f(x)\right| > tol_{NR}$}
         \STATE $x = x - f(x) / df(x)$
@@ -224,9 +227,9 @@ ecuaciones lineales. Aplicamos el m\'etodo al sistema:
 cuya soluci\'on exacta es $(x, y, z) = (2,1,1)$.
 
 Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
-\[
+\begin{equation}
     x_{n+1} = \frac{10 + y_n - z_n}{5}, \quad y_{n+1} = \frac{11 - 2\cdot x_n + z_n}{8}, \quad z_{n+1} = \frac{3 + x_n - y_n}{4}
-\]
+\end{equation}
 
 \begin{equation}
     x_j = 0
@@ -250,8 +253,8 @@ Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
 
 \begin{algorithm}
 \caption{M\'etodo de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
-\begin{algorithmic}
 \label{alg:calc:x,y,z}
+\begin{algorithmic}
     \STATE $x = (10 + y_j - z_j)/5$
     \STATE $y = (11 - 2\cdot x_j + z_j)/8$
     \STATE $z = (3 + x_j - y_j)/4$
@@ -320,8 +323,8 @@ Evaluamos en $t = 1$, donde la soluci\'on exacta vale $e \approx 2.718282$.
 
 \begin{algorithm}
 \caption{M\'etodo de Euler para $y' = y$, $y(0) = 1$}
-\begin{algorithmic}
 \label{alg:calc:y}
+\begin{algorithmic}
     \STATE $t = 0$
     \STATE $y = y_0$
     \WHILE{$t < T$}
@@ -364,8 +367,8 @@ Calculamos $\binom{10}{3} = 120$ mediante el c\'alculo iterativo de factoriales.
 
 \begin{algorithm}
 \caption{C\'alculo de $\binom{n}{k}$ mediante factoriales iterativos}
+\label{alg:calc:nc}
 \begin{algorithmic}
-    \label{alg:calc:nc}
     \STATE $fn = 1$
     \STATE $i = 1$
     \WHILE{$i \leq n$}
@@ -458,8 +461,8 @@ condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T
 
 \begin{algorithm}
 \caption{Euler expl\'{\i}cito para el sistema de Lotka-Volterra}
-\begin{algorithmic}
 \label{alg:calc:xlv}
+\begin{algorithmic}
     \STATE $t_{LV} = 0$
     \WHILE{$t_{LV} < T_{LV}$}
         \STATE $dxdt = \alpha \cdot x_{LV} - \beta \cdot x_{LV} \cdot y_{LV}$
