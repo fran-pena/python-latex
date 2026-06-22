@@ -170,7 +170,7 @@ def parse_eq_block(env_node,namespace, label):
 # PARSEAR ENTORNO ALGORITHMIC (convertirlo en una estructura jerárquica)
 # -------------------------------------------------------------------
 
-def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
+def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_label=None):
     """
     Parsea nodos desde start hasta encontrar un nodo macro cuyo macroname (upper)
     esté en end_tokens. end_tokens puede ser None o lista de strings (ej: ["ENDIF"]).
@@ -199,15 +199,13 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
         return []
 
     # Registrar aliases del \label del algoritmo antes de parsear
-    if start == 0:  # solo en la llamada raíz, no en recursiones
-        label = extract_label(alg_node) 
-        if label:
-            parts = label.split(":")
-            # Buscar el \RETURN para obtener los nombres de variables
-            nameres = _find_return_vars(nodelist, namespace)
-            aliases = [a.strip() for a in parts[2].split(",")]
-            for name, alias in zip(nameres, aliases):
-                namespace["__latex_alias__"][name] = alias
+    if start == 0 and algorithm_label:  # solo en la llamada raíz, no en recursiones
+        parts = algorithm_label.split(":")
+        # Buscar el \RETURN para obtener los nombres de variables
+        nameres = _find_return_vars(nodelist, namespace)
+        aliases = [a.strip() for a in parts[2].split(",")]
+        for name, alias in zip(nameres, aliases):
+            namespace["__latex_alias__"][name] = alias
 
     stmts = []
     i = start
@@ -362,7 +360,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None):
                 for_text = extract_text_from_node(nxt)
                 # Parsear "i=1 to n" con regex
                 m = re.match(r'^\s*(\w+)\s*=\s*(.*?)\s*\\TO\s*(.*?)\s*$',for_text,re.IGNORECASE)
-                print(m)
+                # print(m)
                 var, start, end = m.group(1), m.group(2), m.group(3)
                 
                 body, idx = parse_alg_block(nodelist, namespace, i + 2, end_tokens=["ENDFOR"])
@@ -412,10 +410,10 @@ def parse_env_node(node, namespace):
 
         if subnode is None:
             return None
-        stmts, _ = parse_alg_block(subnode, namespace)
-        print("Ejecutando algoritmo:")
-        from pprint import pprint
-        pprint(stmts)
+        stmts, _ = parse_alg_block(subnode, namespace, algorithm_label=label)
+        # print("Ejecutando algoritmo:")
+        # from pprint import pprint
+        # pprint(stmts)
         return {
             "type": parts[1],
             "alias": parts[2],
