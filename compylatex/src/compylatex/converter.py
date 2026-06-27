@@ -1,6 +1,8 @@
 import re
 
-
+# -------------------------------------------------------------------
+# REEMPLAZAR ALIAS
+# -------------------------------------------------------------------
 def replace_aliases(expr, namespace):
     """
     Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"].
@@ -20,6 +22,9 @@ def replace_aliases(expr, namespace):
     return expr
 
 
+# -------------------------------------------------------------------
+# TRADUCIR EXPRESIONES LATEX
+# -------------------------------------------------------------------
 def tex_to_python(expr):
     """
     Convierte expresiones matemáticas en estilo LaTeX a expresiones válidas en Python,
@@ -35,9 +40,9 @@ def tex_to_python(expr):
     #Eliminar para que no de problemas 
     expr = expr.replace(r"\left", "").replace(r"\right", "")
 
-    # =================================
+    # -------------------------------------------------------------------
     # 1. Operadores relacionales
-    # =================================
+    # -------------------------------------------------------------------
     replacements = {
         r"\leq": "<=",
         r"\geq": ">=",
@@ -56,9 +61,9 @@ def tex_to_python(expr):
         expr = expr.replace(latex, py)
     
 
-    # =================================
+    # -------------------------------------------------------------------
     # 2. Funciones matemáticas
-    # =================================
+    # -------------------------------------------------------------------
     # \sqrt[n]{x} → (x)**(1/n)
     expr = re.sub(
     r'\\sqrt\[([^\]]+)\]\{(.+?)\}',
@@ -73,6 +78,7 @@ def tex_to_python(expr):
         r"\log": "math.log",
         r"\ln": "math.log",
         r"\exp": "math.exp",
+        r"\pi": "math.pi"
     }
 
     # Aplicar reemplazos
@@ -80,9 +86,9 @@ def tex_to_python(expr):
         expr = expr.replace(latex, py)
 
 
-    # =================================
+    # -------------------------------------------------------------------
     # 3. Operaciones matemáticas
-    # =================================
+    # -------------------------------------------------------------------
     oper = {
         r"^": "**",
         r"\div": "/",
@@ -92,34 +98,34 @@ def tex_to_python(expr):
     for latex, py in oper.items():
         expr = expr.replace(latex, py)
 
-    # =================================
+    # -------------------------------------------------------------------
     # 4. Valores absolutos |x| → abs(x)
-    # =================================
+    # -------------------------------------------------------------------
     expr = re.sub(r"\|(.*?)\|", r"abs(\1)", expr)
 
-    # =================================
+    # -------------------------------------------------------------------
     # 5. Sustituir {  } por ( )
-    # =================================
+    # -------------------------------------------------------------------
     expr = expr.replace("{", "(").replace("}", ")")
 
-    # =================================
+    # -------------------------------------------------------------------
     # 6. Sustituir conectores de algorithmic
-    # =================================
+    # -------------------------------------------------------------------
     expr = re.sub(r'\\AND', ' and ', expr)
     expr = re.sub(r'\\OR', ' or ', expr)
     expr = re.sub(r'\\NOT', ' not ', expr)
     expr = re.sub(r'\\XOR', ' ^ ', expr)
 
 
-    # =================================
+    # -------------------------------------------------------------------
     # 7. Normalizar espacios
-    # =================================
+    # -------------------------------------------------------------------
     expr = re.sub(r"\s+", " ", expr).strip()
 
 
     return expr
 
-
+# Función que sustituye primero los alias y luego traduce las expresiones LaTeX
 def tex_to_python_with_alias(expr, namespace):
     """
     Reemplaza names latex por alias internos definidos en namespace["__latex_alias__"], 

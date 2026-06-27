@@ -22,7 +22,7 @@ f(x) = x \cdot \ln(2)
 \end{equation}
 
 \begin{equation}
-a_1 = -1
+a_1 = -1 
 \label{eq:calc:a1}
 \end{equation}
 
@@ -379,23 +379,17 @@ Calculamos $\binom{10}{3} = 120$ mediante el c\'alculo iterativo de factoriales.
 \label{alg:calc:nc}
 \begin{algorithmic}
     \STATE $fn = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq n$}
+    \FOR{$i = 1$ \TO $n$}
         \STATE $fn = fn \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $fk = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq k$}
+    \FOR{$i = 1$ \TO $k$}
         \STATE $fk = fk \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $fnk = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq n - k$}
+    \FOR{$i = 1$ \TO $n - k$}
         \STATE $fnk = fnk \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $nc = fn / (fk \cdot fnk)$
     \RETURN $nc$
 \end{algorithmic}

@@ -7,28 +7,21 @@ from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode
 def compylatex(fichero_latex, output=None):
     with open(fichero_latex, encoding="utf-8") as f:
         tex = f.read()
-# -------------------------------------------------------------------
-# Leer archivo
-# -------------------------------------------------------------------
-## with open("C:/Users/anera/OneDrive/Documentos/USC/4º/TFG/python-latex/pylatexenc/calculo.tex", encoding="utf-8") as f:
-##    tex = f.read()
-
-# tex_resultado es una copia que iremos modificando con los resultados
+    # tex_resultado es una copia que iremos modificando con los resultados
     tex_resultado = tex
-# -------------------------------------------------------------------
-# Extraer ecuaciones etiquetadas
-# -------------------------------------------------------------------
-
+    # -------------------------------------------------------------------
+    # EXTRAER ECUACIONES ETIQUETADAS
+    # -------------------------------------------------------------------
     namespace = {"math": math, "__latex_alias__": {}}  # Los alias los guardaremos en oculto para que no se confundan con el resto de variables
 
-# -------------------------------------------------------------------
-# Extraer entornos con latexwalker
-# -------------------------------------------------------------------
+    # -------------------------------------------------------------------
+    # EXTRAER ENTORNOS CON LATEXWALKER
+    # -------------------------------------------------------------------
     walker = LatexWalker(tex)
     from pprint import pprint
     nodes, _, _ = walker.get_latex_nodes()
     
-    substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las     posiciones en el nuevo documento
+    substitutions = []  # lista de (pos, len, nuevo_texto). La guardamos para luego aplicar las sustituciones todas juntas y controlar las posiciones en el nuevo documento
     env_nodes = find_algorithmic_and_equation_nodes(nodes)
     for node in env_nodes:
         # print(node.envname)
@@ -36,9 +29,8 @@ def compylatex(fichero_latex, output=None):
         if result is None:
             continue
 
-        if node.envname == "algorithm":
+        if node.envname == "algorithm": # Convertir el entorno algorithmic a una estructura jerárquica
             # print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
-            # Convertir el entorno algorithmic a una estructura jerárquica
             # pprint(result["stmts"])
             name, res = ejecutar(result["stmts"], namespace)
             print(f"Resultado del algoritmo: {name} = {res:.6f}")
@@ -66,27 +58,26 @@ def compylatex(fichero_latex, output=None):
                 print("Ejecutando:", code)
                 exec(code, namespace)
 
-    # --------------------------------------------------------------------
-    # Sustituir resultados 
     # -------------------------------------------------------------------
-    # Aplicar sustituciones de atrás hacia adelante
+    # SUSTIRUIR RESULTADOS 
+    # -------------------------------------------------------------------
     tex_resultado = tex
-    for pos, length, new_text in sorted(substitutions, key=lambda x: x[0], reverse=True): # De atrás a delante para que las posiciones no cambie respecto al OG
+    for pos, length, new_text in sorted(substitutions, key=lambda x: x[0], reverse=True): # De atrás a delante para que las posiciones no cambie respecto al original
         tex_resultado = tex_resultado[:pos] + new_text + tex_resultado[pos + length:]
     
     # -------------------------------------------------------------------
-    # Escribir archivo resultado
+    # ESCRIBIR ARCHIVO RESULTADO
     # -------------------------------------------------------------------
-    #output_path = "C:/Users/anera/OneDrive/Documentos/USC/4º/TFG/python-latex/pylatexenc/calculo_resultado.tex"
-    #with open(output_path, "w", encoding="utf-8") as f:
-    #    f.write(tex_resultado)
-    #print(f"\nResultado guardado en {output_path}")
     if output is None:
         output = fichero_latex  # sobreescribe el original
     with open(output, "w", encoding="utf-8") as f:
         f.write(tex_resultado)
     print(f"\nResultado guardado en {output}")
 
+
+
+
+# Función para identificar los nodos del tipo algorithmic o equation
 def find_algorithmic_and_equation_nodes(nodes):
     """Toma una lista de nodos y devuelve una lista con los nodos que son del tipo algorithmic o equation"""
     env_nodes = []

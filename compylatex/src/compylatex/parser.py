@@ -44,9 +44,6 @@ def extract_text_from_node(node, cond = False):
         for subnode in node.argnlist:
             text_parts.append(extract_text_from_node(subnode)) 
         return ''.join(text_parts)
-    #elif hasattr(node, 'latex_verbatim'):
-        # Para nodos que tienen método latex_verbatim
-    #    return node.latex_verbatim()
     else:
         return ""
     
@@ -79,7 +76,6 @@ def parse_eq_block(env_node,namespace, label):
 
     """
     Procesa un entorno equation y devuelve un diccionario:
-    
     {
         "name": nombre interno python,
         "alias": forma latex del lado izquierdo,
@@ -384,8 +380,13 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
     # fin while
     return stmts, i
 
-
+# -------------------------------------------------------------------
+# INTERPRETAR QUÉ TIPO DE ENTORNO ES Y PARSEARLO
+# -------------------------------------------------------------------
 def parse_env_node(node, namespace):
+    """
+    Recibe un nodo de entorno y devuelve el resultado resultante de aplicarles parse_alg_node o parse_eq_node según sea necesario
+    """
     label = extract_label(node)
     if label is None:
         return None
