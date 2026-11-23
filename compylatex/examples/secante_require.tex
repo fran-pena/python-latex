@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\title{Un algoritmo reutilizable: m\'etodo de la secante}
+\date{}
+
+\begin{document}
+\maketitle
+
+Se aproximan las ra\'ices de dos funciones con el mismo algoritmo.
+Como en Newton--Raphson, se trata de un m\'etodo iterativo, pero la
+secante aproxima la derivada a partir de dos puntos.
+
+\begin{equation}
+    f(x) = x^2 - 2
+    \label{eq:calc:f}
+\end{equation}
+
+\begin{equation}
+    g(x) = x^3 - 2
+    \label{eq:calc:g}
+\end{equation}
+
+\begin{algorithm}
+\caption{M\'etodo de la secante}
+\label{alg:calc:secante}
+\begin{algorithmic}
+    \REQUIRE $F, a, b, tol, limite$
+    \STATE $i = 0$
+    \WHILE{$i < limite \AND |F(b)| > tol$}
+        \STATE $s = b - F(b) \cdot (b - a) / (F(b) - F(a))$
+        \STATE $a = b$
+        \STATE $b = s$
+        \STATE $i = i + 1$
+    \ENDWHILE
+    \RETURN $b$
+\end{algorithmic}
+\end{algorithm}
+
+La etiqueta identifica la funci\'on \texttt{secante}; el algoritmo se
+ejecuta al llamarla, no al declararla. Sus par\'ametros son los indicados
+en \texttt{Require}, en el mismo orden.
+
+\begin{equation}
+    raizuno = secante(f, 1, 2, 1e-8, 50)
+    \label{eq:calc:raizuno}
+\end{equation}
+
+\begin{equation}
+    raizdos = secante(g, 1, 2, 1e-8, 50)
+    \label{eq:calc:raizdos}
+\end{equation}
+
+Las ra\'ices aproximadas son:
+
+\begin{equation}
+    raizuno =
+    \label{eq:res:raizuno}
+\end{equation}
+
+\begin{equation}
+    raizdos =
+    \label{eq:res:raizdos}
+\end{equation}
+
+Si se alcanza el l\'imite de iteraciones, el algoritmo devuelve la
+\'ultima aproximaci\'on sin garantizar la convergencia. La f\'ormula
+requiere que $F(b) - F(a)$ no sea cero.
+
+\end{document}
