@@ -1,5 +1,6 @@
 from .converter import tex_to_python_with_alias
 import re
+import keyword
 from pylatexenc.latexwalker import LatexEnvironmentNode
 
 # Función para extraer recursivamente el texto de un nodelist
@@ -186,7 +187,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
 
     # Función para extraer el nombre de la(s) variable(s) de salida 
     def _find_return_vars(nodelist, namespace):
-        """Extrae las variables del \RETURN del algoritmo."""
+        """Extrae las variables del \\RETURN del algoritmo."""
         for i, node in enumerate(nodelist):
             if hasattr(node, "macroname") and node.macroname.upper() == "RETURN":
                 if i + 1 < len(nodelist):
@@ -383,6 +384,67 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
 # -------------------------------------------------------------------
 # INTERPRETAR QUÉ TIPO DE ENTORNO ES Y PARSEARLO
 # -------------------------------------------------------------------
+
+def _instruction_text(nodelist, index):
+    """Recoge el texto de una instrucción hasta la siguiente macro."""
+    pieces = []
+    for node in nodelist[index + 1:]:
+        if hasattr(node, "macroname"):
+            break
+        pieces.append(extract_text_from_node(node))
+    return "".join(pieces).strip()
+
+
+def _function_algorithm(subnode, label):
+    """Construye la firma local y el árbol de un algoritmo reutilizable."""
+    name = label.split(":")[2]
+    if not name.isidentifier() or keyword.iskeyword(name) or name == "math":
+        raise ValueError(f"Nombre de función inválido en {label!r}")
+
+    nodes = subnode.nodelist
+    requirements = [
+        _instruction_text(nodes, i)
+        for i, node in enumerate(nodes)
+        if getattr(node, "macroname", "").upper() == "REQUIRE"
+    ]
+    if not requirements:
+        raise ValueError(f"El algoritmo {name!r} necesita al menos un \\REQUIRE")
+
+    aliases = {}
+    for match in re.finditer(r"[A-Za-z][A-Za-z0-9_]*_\{[A-Za-z0-9]+\}", subnode.latex_verbatim()):
+        raw = match.group()
+        aliases[raw] = raw.replace("{", "").replace("}", "")
+
+    parameters = []
+    for requirement in requirements:
+        for raw in requirement.split(","):
+            raw = raw.strip()
+            if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*(?:_\{[A-Za-z0-9]+\})?", raw):
+                raise ValueError(f"Parámetro inválido en \\REQUIRE de {name!r}: {raw!r}")
+            parameter = aliases.get(raw, raw)
+            if not parameter.isidentifier() or keyword.iskeyword(parameter) or parameter == "math":
+                raise ValueError(f"Parámetro inválido en \\REQUIRE de {name!r}: {raw!r}")
+            if parameter in parameters:
+                raise ValueError(f"Parámetro duplicado en {name!r}: {raw!r}")
+            parameters.append(parameter)
+
+    local_namespace = {"__latex_alias__": aliases, "__local_aliases__": True}
+    returns = [
+        _instruction_text(nodes, i)
+        for i, node in enumerate(nodes)
+        if getattr(node, "macroname", "").upper() == "RETURN"
+    ]
+    if not returns:
+        raise ValueError(f"El algoritmo {name!r} necesita un \\RETURN")
+    for raw in returns:
+        result = tex_to_python_with_alias(raw, local_namespace)
+        if not result.isidentifier() or keyword.iskeyword(result):
+            raise ValueError(f"\\RETURN de {name!r} debe contener una sola variable: {raw!r}")
+
+    stmts, _ = parse_alg_block(subnode, local_namespace)
+    return {"type": "function", "alias": name, "parameters": parameters, "stmts": stmts}
+
+
 def parse_env_node(node, namespace):
     """
     Recibe un nodo de entorno y devuelve el resultado resultante de aplicarles parse_alg_node o parse_eq_node según sea necesario
@@ -392,11 +454,11 @@ def parse_env_node(node, namespace):
         return None
     
     parts = label.split(":")
-    if len(parts) != 3 or parts[1] not in ("calc", "res"):
+    if len(parts) != 3 or parts[1] not in ("calc", "res", "def"):
         return None
 
     if node.envname == "equation":
-        if parts[0] != "eq":
+        if parts[0] != "eq" or parts[1] not in ("calc", "res"):
             return None
         return parse_eq_block(node, namespace, label)  # pasamos label
     
@@ -411,6 +473,12 @@ def parse_env_node(node, namespace):
 
         if subnode is None:
             return None
+        has_require = any(
+            getattr(n, "macroname", "").upper() == "REQUIRE"
+            for n in subnode.nodelist
+        )
+        if parts[1] == "def" or (parts[1] == "calc" and has_require):
+            return _function_algorithm(subnode, label)
         stmts, _ = parse_alg_block(subnode, namespace, algorithm_label=label)
         # print("Ejecutando algoritmo:")
         # from pprint import pprint
