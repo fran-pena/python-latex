@@ -426,7 +426,9 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion">Instalación</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uso">Uso</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-en-el-tex">Convenciones en el .tex</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables">Algoritmos reutilizables</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo">Ejemplo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas">Pruebas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#web">Web</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos">Requisitos</a></li>
 </ul>
@@ -443,9 +445,12 @@
   <section class="tex2jax_ignore mathjax_ignore" id="compylatex">
 <h1>compylatex<a class="headerlink" href="#compylatex" title="Link to this heading">#</a></h1>
 <p>Ejecuta algoritmos embebidos en LaTeX y devuelve el documento completado con los resultados.</p>
+<p>Consulta la <a class="reference internal" href="docs/guia_de_uso.html"><span class="std std-doc">guía de uso</span></a> para entender las etiquetas,
+ejecutar documentos, consultar los ejemplos y ejecutar las pruebas.</p>
 <section id="instalacion">
 <h2>Instalación<a class="headerlink" href="#instalacion" title="Link to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<p>Desde la carpeta <code class="docutils literal notranslate"><span class="pre">compylatex</span></code>, usando el intérprete de tu entorno virtual:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </section>
@@ -462,12 +467,68 @@
 <h2>Convenciones en el .tex<a class="headerlink" href="#convenciones-en-el-tex" title="Link to this heading">#</a></h2>
 <p>Las ecuaciones con <code class="docutils literal notranslate"><span class="pre">\label{eq:calc:nombre}</span></code> se evalúan como cálculos.
 Las ecuaciones con <code class="docutils literal notranslate"><span class="pre">\label{eq:res:nombre}</span></code> se completan con el resultado.
-Los entornos <code class="docutils literal notranslate"><span class="pre">algorithmic</span></code> se ejecutan en el orden en que aparecen.</p>
+Los algoritmos <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> se ejecutan en el orden en que aparecen.</p>
+</section>
+<section id="algoritmos-reutilizables">
+<h2>Algoritmos reutilizables<a class="headerlink" href="#algoritmos-reutilizables" title="Link to this heading">#</a></h2>
+<p>Un algoritmo <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> que contiene <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> se registra como función y no
+se ejecuta hasta que se invoca. También puede declararse explícitamente con
+<code class="docutils literal notranslate"><span class="pre">alg:def</span></code>. El último componente de la etiqueta es el nombre de la función.</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>alg:calc:doble<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+    <span class="k">\REQUIRE</span> <span class="s">$</span><span class="nb">x</span><span class="s">$</span>
+    <span class="k">\STATE</span> <span class="s">$</span><span class="nb">y </span><span class="o">=</span><span class="nb"> </span><span class="m">2</span><span class="nb"> </span><span class="nv">\cdot</span><span class="nb"> x</span><span class="s">$</span>
+    <span class="k">\RETURN</span> <span class="s">$</span><span class="nb">y</span><span class="s">$</span>
+<span class="k">\end</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    resultado </span><span class="o">=</span><span class="nb"> doble</span><span class="o">(</span><span class="m">3</span><span class="o">)</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:resultado}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    resultado </span><span class="o">=</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:res:resultado}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> declara argumentos posicionales, en orden, separados por comas;
+puede aparecer varias veces. Admite valores numéricos y funciones definidas
+previamente. <code class="docutils literal notranslate"><span class="pre">\RETURN</span></code> devuelve una sola variable; sus expresiones y retornos
+múltiples todavía no están soportados en este modo. Los argumentos y
+asignaciones son locales a cada llamada. Las funciones recibidas pueden tener
+su propio estado y no se copian los objetos mutables pasados por el usuario.
+Las dependencias deben proporcionarse como argumentos; <code class="docutils literal notranslate"><span class="pre">math</span></code> está disponible
+para las operaciones matemáticas. <code class="docutils literal notranslate"><span class="pre">\ENSURE</span></code> permanece exclusivamente
+documental y no se comprueba.</p>
+<p>La función está disponible después de su declaración y se llama desde una
+ecuación <code class="docutils literal notranslate"><span class="pre">eq:calc</span></code> o desde expresiones compatibles del documento. Los comandos
+originales <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> y <code class="docutils literal notranslate"><span class="pre">\ENSURE</span></code> se conservan en el archivo LaTeX, por lo que
+siguen apareciendo al compilarlo normalmente.</p>
+<p><strong>Cambio incompatible:</strong> antes, un <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> en <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> solo describía el
+algoritmo; ahora lo convierte en función. La etiqueta deja de nombrar la salida
+inmediata y la ejecución debe hacerse mediante una llamada explícita. Los
+documentos existentes que incluyan <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> deberán adaptarse. Los algoritmos
+sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> conservan la ejecución inmediata.</p>
+<p>Véase <a class="reference download internal" download="" href="../_downloads/c7b24f34fb337826941f13286a30e2c6/secante_require.tex"><span class="xref download myst">el ejemplo de la secante</span></a>, que aplica
+un mismo algoritmo a dos funciones. Al alcanzar el límite de iteraciones, este
+ejemplo devuelve la última aproximación sin garantizar la convergencia.</p>
+<p>ComPyLaTeX ejecuta código derivado del documento: utilícese únicamente con
+archivos LaTeX de confianza. El ámbito local no es una barrera de seguridad.</p>
 </section>
 <section id="ejemplo">
 <h2>Ejemplo<a class="headerlink" href="#ejemplo" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>examples
 python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import compylatex as cl; cl.compylatex('calculo.tex', 'calculo_resultado.tex')"</span>
+</pre></div>
+</div>
+</section>
+<section id="pruebas">
+<h2>Pruebas<a class="headerlink" href="#pruebas" title="Link to this heading">#</a></h2>
+<p>Desde la carpeta <code class="docutils literal notranslate"><span class="pre">compylatex</span></code>, con el paquete instalado:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-v
 </pre></div>
 </div>
 </section>
@@ -535,7 +596,9 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion">Instalación</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uso">Uso</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-en-el-tex">Convenciones en el .tex</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables">Algoritmos reutilizables</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo">Ejemplo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas">Pruebas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#web">Web</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos">Requisitos</a></li>
 </ul>

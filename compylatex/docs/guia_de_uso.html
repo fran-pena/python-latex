@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Guía de uso de ComPyLaTeX &#8212; python-latex</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'compylatex/docs/guia_de_uso';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../pages/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="python-latex - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="python-latex - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../pages/intro.html">
+                    Compilando LaTeX desde Python
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../pages/preliminares.html">Preliminares</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pages/celdas1.html">Ejecución de celdas de código</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pages/celdas2.html">Uso de variables de otras celdas de código</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pages/sympy1.html">Procesar LaTex con SymPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pages/acceso1.html">Acceso a otras celdas del Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pages/algor1.html">Procesar algoritmos en LaTeX</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/compylatex.html">El paquete compylatex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/apendice1.html">APÉNDICE: cómo trabajar en el proyecto</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fran-pena/python-latex" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fran-pena/python-latex/issues/new?title=Issue%20on%20page%20%2Fcompylatex/docs/guia_de_uso.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/compylatex/docs/guia_de_uso.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Guía de uso de ComPyLaTeX</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#idea-general">Idea general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos-e-instalacion">Requisitos e instalación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-significan-las-etiquetas">Qué significan las etiquetas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-y-resultados">Datos y resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funciones-matematicas-en-ecuaciones">Funciones matemáticas en ecuaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-de-ejecucion-inmediata">Algoritmos de ejecución inmediata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables-con-require">Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-un-documento">Ejecutar un documento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-incluidos">Ejemplos incluidos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas">Pruebas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones-practicas">Limitaciones prácticas</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="guia-de-uso-de-compylatex">
+<h1>Guía de uso de ComPyLaTeX<a class="headerlink" href="#guia-de-uso-de-compylatex" title="Link to this heading">#</a></h1>
+<section id="idea-general">
+<h2>Idea general<a class="headerlink" href="#idea-general" title="Link to this heading">#</a></h2>
+<p>ComPyLaTeX permite incluir cálculos y algoritmos en un documento LaTeX y
+obtener otro documento <code class="docutils literal notranslate"><span class="pre">.tex</span></code> con los resultados insertados. El documento
+conserva sus ecuaciones, algoritmos y etiquetas; después puede compilarse
+normalmente para obtener un PDF.</p>
+<p>El usuario señala qué partes deben procesarse mediante <code class="docutils literal notranslate"><span class="pre">\label</span></code>. A grandes
+rasgos, ComPyLaTeX lee el documento de principio a fin, traduce los cálculos
+reconocidos a Python y guarda los valores y funciones para utilizarlos más
+adelante. Cuando encuentra una etiqueta de resultado, recoge el valor disponible
+en ese punto y lo inserta en el documento de salida.</p>
+<p>Esta guía resume la filosofía de etiquetado del capítulo 2 del TFG, adaptada
+al comportamiento actual del paquete.</p>
+<p>No todos los entornos o expresiones LaTeX son ejecutables. En particular, los
+cálculos de esta guía se escriben en entornos <code class="docutils literal notranslate"><span class="pre">equation</span></code>; los algoritmos usan
+<code class="docutils literal notranslate"><span class="pre">algorithm</span></code> con <code class="docutils literal notranslate"><span class="pre">algorithmic</span></code> en su interior.</p>
+</section>
+<section id="requisitos-e-instalacion">
+<h2>Requisitos e instalación<a class="headerlink" href="#requisitos-e-instalacion" title="Link to this heading">#</a></h2>
+<p>Se necesita Python 3.10 o posterior y la dependencia <code class="docutils literal notranslate"><span class="pre">pylatexenc</span></code>. La instalación
+editable desde la carpeta <code class="docutils literal notranslate"><span class="pre">compylatex</span></code> instala el paquete y su dependencia:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Utiliza el Python de tu entorno virtual para instalar y ejecutar el paquete. Si
+trabajas en PowerShell sin activar el entorno, puedes invocar directamente su
+intérprete con <code class="docutils literal notranslate"><span class="pre">&amp;</span> <span class="pre">&quot;ruta\al\entorno\Scripts\python.exe&quot;</span></code> en lugar de <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
+<p>El documento LaTeX debe incluir, entre otros, los paquetes utilizados por los
+ejemplos:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\usepackage</span><span class="nb">{</span>amsmath<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+</pre></div>
+</div>
+<p>Para obtener un PDF también se necesita una distribución de LaTeX con esos
+paquetes. ComPyLaTeX genera el <code class="docutils literal notranslate"><span class="pre">.tex</span></code>; no compila el PDF.</p>
+</section>
+<section id="que-significan-las-etiquetas">
+<h2>Qué significan las etiquetas<a class="headerlink" href="#que-significan-las-etiquetas" title="Link to this heading">#</a></h2>
+<p>Las etiquetas reconocidas tienen tres componentes:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>entorno:tipo:nombre
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Etiqueta</p></th>
+<th class="head"><p>Propósito</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eq:calc:nombre</span></code></p></td>
+<td><p>Calcula una variable o define una función matemática.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eq:res:nombre</span></code></p></td>
+<td><p>Inserta el valor almacenado con ese nombre.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">alg:calc:nombre</span></code></p></td>
+<td><p>Ejecuta un algoritmo sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>; con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>, define una función reutilizable.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alg:def:nombre</span></code></p></td>
+<td><p>Define explícitamente una función reutilizable y requiere <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">nombre</span></code> es un identificador interno, también llamado <em>alias</em>. Para evitar
+problemas, usa nombres distintos formados por letras y números, que empiecen por
+una letra, como <code class="docutils literal notranslate"><span class="pre">toldic</span></code> o <code class="docutils literal notranslate"><span class="pre">raizuno</span></code>. El alias de una función reutilizable debe
+ser un identificador válido de Python y no puede ser <code class="docutils literal notranslate"><span class="pre">math</span></code> ni una palabra
+reservada de Python.</p>
+<p>Los entornos sin una etiqueta reconocida no se procesan. La etiqueta de
+<code class="docutils literal notranslate"><span class="pre">algorithm</span></code> puede situarse en ese entorno o dentro de su <code class="docutils literal notranslate"><span class="pre">algorithmic</span></code>.</p>
+<section id="datos-y-resultados">
+<h3>Datos y resultados<a class="headerlink" href="#datos-y-resultados" title="Link to this heading">#</a></h3>
+<p>Una ecuación de cálculo asigna el valor de su lado derecho al alias de la
+etiqueta. Por ejemplo:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    tol_{dic} </span><span class="o">=</span><span class="nb"> </span><span class="m">1</span><span class="nb">e</span><span class="o">-</span><span class="m">6</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:toldic}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<p>Aquí <code class="docutils literal notranslate"><span class="pre">tol_{dic}</span></code> es el nombre escrito en el documento y <code class="docutils literal notranslate"><span class="pre">toldic</span></code> es su alias
+interno. Ese valor puede utilizarse en cálculos posteriores.</p>
+<p>Para mostrar un valor, escribe una ecuación con el lado derecho vacío:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    tol_{dic} </span><span class="o">=</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:res:toldic}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<p>El nombre de <code class="docutils literal notranslate"><span class="pre">eq:res</span></code> debe coincidir con el alias calculado antes. La etiqueta
+debe ir después del signo <code class="docutils literal notranslate"><span class="pre">=</span></code>, separada solo por espacios o saltos de línea.
+Si el alias no se ha calculado, el programa muestra una advertencia y no inserta
+un valor. Para volver a procesar un documento, parte del original con el hueco
+vacío: los resultados ya escritos no se sustituyen automáticamente.</p>
+</section>
+<section id="funciones-matematicas-en-ecuaciones">
+<h3>Funciones matemáticas en ecuaciones<a class="headerlink" href="#funciones-matematicas-en-ecuaciones" title="Link to this heading">#</a></h3>
+<p>Una ecuación como la siguiente define una función que puede llamarse más de una
+vez:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    f</span><span class="o">(</span><span class="nb">x</span><span class="o">)</span><span class="nb"> </span><span class="o">=</span><span class="nb"> x^</span><span class="m">2</span><span class="nb"> </span><span class="o">-</span><span class="nb"> </span><span class="m">2</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:f}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    valor </span><span class="o">=</span><span class="nb"> f</span><span class="o">(</span><span class="m">2</span><span class="o">)</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:valor}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<p>Para las funciones definidas de este modo, utiliza el mismo nombre en la
+ecuación y en la etiqueta, como <code class="docutils literal notranslate"><span class="pre">f</span></code> en el ejemplo. Los argumentos se indican
+entre paréntesis y separados por comas. Para mostrar <code class="docutils literal notranslate"><span class="pre">valor</span></code>, añade una
+ecuación <code class="docutils literal notranslate"><span class="pre">eq:res:valor</span></code> con el lado derecho vacío.</p>
+</section>
+<section id="algoritmos-de-ejecucion-inmediata">
+<h3>Algoritmos de ejecución inmediata<a class="headerlink" href="#algoritmos-de-ejecucion-inmediata" title="Link to this heading">#</a></h3>
+<p>Un algoritmo <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> se ejecuta cuando aparece. Puede utilizar
+los datos definidos anteriormente y modificar variables del espacio de cálculo
+compartido:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    b </span><span class="o">=</span><span class="nb"> </span><span class="m">3</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:b}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>alg:calc:resultado<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+    <span class="k">\STATE</span> <span class="s">$</span><span class="nb">resultado </span><span class="o">=</span><span class="nb"> </span><span class="m">2</span><span class="nb"> </span><span class="nv">\cdot</span><span class="nb"> b</span><span class="s">$</span>
+    <span class="k">\RETURN</span> <span class="s">$</span><span class="nb">resultado</span><span class="s">$</span>
+<span class="k">\end</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    resultado </span><span class="o">=</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:res:resultado}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<p>En este modo, la etiqueta del algoritmo identifica el alias asociado a su
+variable de retorno. Para los casos sencillos, utiliza una única variable en
+<code class="docutils literal notranslate"><span class="pre">\RETURN</span></code> y el mismo alias en <code class="docutils literal notranslate"><span class="pre">eq:res</span></code>.</p>
+</section>
+<section id="algoritmos-reutilizables-con-require">
+<h3>Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code><a class="headerlink" href="#algoritmos-reutilizables-con-require" title="Link to this heading">#</a></h3>
+<p>Si un algoritmo <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> contiene <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>, se registra como función y
+<strong>no se ejecuta al declararlo</strong>. También se puede usar <code class="docutils literal notranslate"><span class="pre">alg:def</span></code> para indicar
+explícitamente que es una definición. La parte final de la etiqueta es el
+nombre de la función:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\begin</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+<span class="k">\label</span><span class="nb">{</span>alg:def:doble<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+    <span class="k">\REQUIRE</span> <span class="s">$</span><span class="nb">x</span><span class="s">$</span>
+    <span class="k">\STATE</span> <span class="s">$</span><span class="nb">y </span><span class="o">=</span><span class="nb"> </span><span class="m">2</span><span class="nb"> </span><span class="nv">\cdot</span><span class="nb"> x</span><span class="s">$</span>
+    <span class="k">\RETURN</span> <span class="s">$</span><span class="nb">y</span><span class="s">$</span>
+<span class="k">\end</span><span class="nb">{</span>algorithmic<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>algorithm<span class="nb">}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    primer </span><span class="o">=</span><span class="nb"> doble</span><span class="o">(</span><span class="m">3</span><span class="o">)</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:primer}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    segundo </span><span class="o">=</span><span class="nb"> doble</span><span class="o">(</span><span class="m">5</span><span class="o">)</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:calc:segundo}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    primer </span><span class="o">=</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:res:primer}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+
+<span class="k">\begin</span><span class="nb">{equation}</span>
+<span class="nb">    segundo </span><span class="o">=</span>
+<span class="nb">    </span><span class="nv">\label</span><span class="nb">{eq:res:segundo}</span>
+<span class="k">\end</span><span class="nb">{equation}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> enumera las entradas posicionales, separadas por comas y en el
+orden de la llamada. Puede haber varias líneas <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>; se admiten nombres
+de variables, no descripciones en prosa.</p></li>
+<li><p>Las entradas pueden ser números o funciones matemáticas definidas previamente.</p></li>
+<li><p>Cada llamada dispone de sus propios parámetros y variables de trabajo. Los
+datos externos que necesite el algoritmo deben pasarse como argumentos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\RETURN</span></code> debe indicar una única variable, no una expresión ni varias
+variables. Si la ejecución termina sin alcanzar un <code class="docutils literal notranslate"><span class="pre">\RETURN</span></code>, se produce un
+error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\ENSURE</span></code> es documental: se conserva en el LaTeX, pero no declara salidas ni
+se comprueba como condición.</p></li>
+</ul>
+<p>Los argumentos mutables no se copian: aislar las asignaciones locales no impide
+que una función recibida como argumento modifique sus propios datos.</p>
+<p><strong>Compatibilidad:</strong> en documentos anteriores, <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> podía ser solo
+documental. Ahora cambia el significado de <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code>: el nombre de la etiqueta
+identifica la función, y para obtener un resultado hay que llamarla en una
+ecuación posterior. Los algoritmos sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> mantienen la ejecución
+inmediata.</p>
+</section>
+</section>
+<section id="ejecutar-un-documento">
+<h2>Ejecutar un documento<a class="headerlink" href="#ejecutar-un-documento" title="Link to this heading">#</a></h2>
+<p>En Python, indica el archivo de entrada y, preferiblemente, uno distinto para
+la salida:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">compylatex</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cl</span>
+
+<span class="n">cl</span><span class="o">.</span><span class="n">compylatex</span><span class="p">(</span><span class="s2">"documento.tex"</span><span class="p">,</span> <span class="s2">"documento_resultado.tex"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La función escribe el documento de salida con los resultados disponibles. Si
+el archivo de salida ya existe, lo sobrescribe.
+Después puedes compilar <code class="docutils literal notranslate"><span class="pre">documento_resultado.tex</span></code> con tu herramienta LaTeX
+habitual. Las rutas de este ejemplo se resuelven desde el directorio de trabajo.</p>
+<p><strong>Atención:</strong> si se omite el segundo argumento, ComPyLaTeX sobrescribe el archivo
+de entrada:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">.</span><span class="n">compylatex</span><span class="p">(</span><span class="s2">"documento.tex"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Utiliza solo documentos de confianza: ComPyLaTeX ejecuta código derivado del
+contenido del archivo. Las variables locales de las funciones reutilizables no
+constituyen una barrera de seguridad.</p>
+</section>
+<section id="ejemplos-incluidos">
+<h2>Ejemplos incluidos<a class="headerlink" href="#ejemplos-incluidos" title="Link to this heading">#</a></h2>
+<p>En <a class="reference internal" href="#../examples/"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">examples/</span></code></span></a> se pueden consultar:</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="../../_downloads/66dd7a4ea7ce36cc4a20b6e478d78352/calculo.tex"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">calculo.tex</span></code></span></a>: cálculos y algoritmos, incluidos
+dicotomía, Newton–Raphson, Jacobi, Euler y número combinatorio. Su salida de
+referencia es <a class="reference download internal" download="" href="../../_downloads/fcaa4df2bd3d47dedd5bc0a6e603efd2/procesado_calculo.tex"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">procesado_calculo.tex</span></code></span></a>;
+también se proporcionan los PDF correspondientes.</p></li>
+<li><p><a class="reference download internal" download="" href="../../_downloads/c7b24f34fb337826941f13286a30e2c6/secante_require.tex"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">secante_require.tex</span></code></span></a>: define una vez el
+método de la secante y lo llama con dos funciones distintas. Puede devolver
+la última aproximación sin converger si se alcanza el límite de iteraciones.</p></li>
+</ul>
+<p>Por ejemplo, desde la carpeta <code class="docutils literal notranslate"><span class="pre">compylatex</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">compylatex</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cl</span>
+
+<span class="n">cl</span><span class="o">.</span><span class="n">compylatex</span><span class="p">(</span><span class="s2">"examples/calculo.tex"</span><span class="p">,</span> <span class="s2">"examples/calculo_resultado.tex"</span><span class="p">)</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">compylatex</span><span class="p">(</span><span class="s2">"examples/secante_require.tex"</span><span class="p">,</span> <span class="s2">"examples/secante_resultado.tex"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Elige rutas de salida que no existan o que puedas sobrescribir. No es necesario
+sobrescribir las fuentes ni volver a procesar archivos ya completados.</p>
+</section>
+<section id="pruebas">
+<h2>Pruebas<a class="headerlink" href="#pruebas" title="Link to this heading">#</a></h2>
+<p>El paquete incluye pruebas en <a class="reference download internal" download="" href="../../_downloads/7f86ed7efe554a3f9c24bbf6bb231d7e/test_require.py"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">tests/test_require.py</span></code></span></a>.
+Cubren, entre otros casos, el uso de <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code>, llamadas repetidas, el ejemplo
+de la secante y un algoritmo de ejecución inmediata.</p>
+<p>Una vez instalado el paquete, ejecútalas desde la carpeta <code class="docutils literal notranslate"><span class="pre">compylatex</span></code> con el
+mismo intérprete del entorno virtual:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Un resultado final <code class="docutils literal notranslate"><span class="pre">OK</span></code> indica que todas las pruebas ejecutadas han pasado.
+Estas pruebas no certifican todas las expresiones LaTeX ni todos los algoritmos
+posibles.</p>
+</section>
+<section id="limitaciones-practicas">
+<h2>Limitaciones prácticas<a class="headerlink" href="#limitaciones-practicas" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>El traductor admite solo un subconjunto de expresiones y comandos LaTeX; una
+ecuación visualmente válida no es necesariamente ejecutable.</p></li>
+<li><p>La sustitución de alias es principalmente textual: evita nombres ambiguos y
+comprueba los resultados, especialmente si unos nombres contienen a otros.</p></li>
+<li><p>La compatibilidad con retornos múltiples de algoritmos requiere revisión.</p></li>
+<li><p>ComPyLaTeX no calcula automáticamente derivadas ni garantiza la convergencia
+de los métodos numéricos que se escriban en el documento.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./compylatex/docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#idea-general">Idea general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requisitos-e-instalacion">Requisitos e instalación</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-significan-las-etiquetas">Qué significan las etiquetas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-y-resultados">Datos y resultados</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#funciones-matematicas-en-ecuaciones">Funciones matemáticas en ecuaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-de-ejecucion-inmediata">Algoritmos de ejecución inmediata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables-con-require">Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecutar-un-documento">Ejecutar un documento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplos-incluidos">Ejemplos incluidos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pruebas">Pruebas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitaciones-practicas">Limitaciones prácticas</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fran Pena
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
