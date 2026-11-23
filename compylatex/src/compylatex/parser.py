@@ -187,7 +187,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
 
     # Función para extraer el nombre de la(s) variable(s) de salida 
     def _find_return_vars(nodelist, namespace):
-        """Extrae las variables del \RETURN del algoritmo."""
+        """Extrae las variables del \\RETURN del algoritmo."""
         for i, node in enumerate(nodelist):
             if hasattr(node, "macroname") and node.macroname.upper() == "RETURN":
                 if i + 1 < len(nodelist):

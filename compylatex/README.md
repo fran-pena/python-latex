@@ -2,9 +2,15 @@
 
 Ejecuta algoritmos embebidos en LaTeX y devuelve el documento completado con los resultados.
 
+Consulta la [guía de uso](docs/guia_de_uso.md) para entender las etiquetas,
+ejecutar documentos, consultar los ejemplos y ejecutar las pruebas.
+
 ## Instalación
+
+Desde la carpeta `compylatex`, usando el intérprete de tu entorno virtual:
+
 ```bash
-pip install -e .
+python -m pip install -e .
 ```
 
 ## Uso
@@ -80,6 +86,14 @@ archivos LaTeX de confianza. El ámbito local no es una barrera de seguridad.
 ```bash
 cd examples
 python -c "import compylatex as cl; cl.compylatex('calculo.tex', 'calculo_resultado.tex')"
+```
+
+## Pruebas
+
+Desde la carpeta `compylatex`, con el paquete instalado:
+
+```bash
+python -m unittest discover -s tests -v
 ```
 
 ## Web
