@@ -15,6 +15,15 @@ def replace_aliases(expr, namespace):
     # Ordenar alias del más largo al más corto para evitar colisiones
     sorted_names = sorted(names.keys(), key=len, reverse=True)
 
+    local_aliases = namespace.get("__local_aliases__") or any(
+        re.search(r"(?<![A-Za-z0-9_])" + re.escape(name) + r"\s*\(", expr)
+        for name in namespace.get("__algorithm_functions__", ())
+    )
+    if local_aliases and sorted_names:
+        alternatives = "|".join(re.escape(name) for name in sorted_names)
+        pattern = r"(?<![A-Za-z0-9_\\])(?:" + alternatives + r")(?![A-Za-z0-9_])"
+        return re.sub(pattern, lambda match: names[match.group()], expr)
+
     for name in sorted_names:
         alias = names[name]   # alias que se le da en el namespace
         expr = expr.replace(name, alias)

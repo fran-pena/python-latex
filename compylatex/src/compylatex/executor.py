@@ -32,8 +32,15 @@ def compylatex(fichero_latex, output=None):
         if node.envname == "algorithm": # Convertir el entorno algorithmic a una estructura jerárquica
             # print(f"\nEncontrado entorno algorithmic en posición {node.pos}")
             # pprint(result["stmts"])
-            name, res = ejecutar(result["stmts"], namespace)
-            print(f"Resultado del algoritmo: {name} = {res:.6f}")
+            if result["type"] == "function":
+                name = result["alias"]
+                if name in namespace:
+                    raise ValueError(f"Ya existe una variable o función llamada {name!r}")
+                namespace[name] = crear_funcion(result)
+                namespace.setdefault("__algorithm_functions__", set()).add(name)
+            else:
+                name, res = ejecutar(result["stmts"], namespace)
+                print(f"Resultado del algoritmo: {name} = {res:.6f}")
         if node.envname == "equation":
             # print(f"\nEncontrado entorno equation en posición {node.pos}")
             if result["type"] == "res":
@@ -103,6 +110,26 @@ def find_algorithmic_and_equation_nodes(nodes):
 # -------------------------------------------------------------------
 # Ejecutar el árbol del algoritmo
 # -------------------------------------------------------------------
+
+def crear_funcion(algorithm):
+    name = algorithm["alias"]
+    parameters = algorithm["parameters"]
+    stmts = algorithm["stmts"]
+
+    def function(*args):
+        if len(args) != len(parameters):
+            raise TypeError(
+                f"{name} requiere {len(parameters)} argumentos, recibió {len(args)}"
+            )
+        local_namespace = {"math": math}
+        local_namespace.update(zip(parameters, args))
+        result = ejecutar(stmts, local_namespace)
+        if result is None:
+            raise ValueError(f"El algoritmo {name!r} terminó sin ejecutar \\RETURN")
+        return result[1]
+
+    return function
+
 
 def ejecutar(algo, ns):
     for step in algo:
