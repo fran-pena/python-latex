@@ -22,13 +22,13 @@ f(x) = x \cdot \ln(2)
 \end{equation}
 
 \begin{equation}
-a = -1
-\label{eq:calc:a}
+a_1 = -1 
+\label{eq:calc:a1}
 \end{equation}
 
 \begin{equation}
-b = 10
-\label{eq:calc:b}
+a_2 = 10
+\label{eq:calc:a2}
 \end{equation}
 
 \begin{equation}
@@ -38,24 +38,26 @@ b = 10
 
 \begin{algorithm}
 \caption{M\'etodo de dicotom\'{\i}a}
-\label{alg:calc:dicotomia}
+\label{alg:calc:a3}
 \begin{algorithmic}
-\WHILE{$b - a > tol_{dic}$}
-    \STATE $c = (a + b)/2$
-    \IF{$f(a) \cdot f(c) < 0$}
-        \STATE $b = c$
-    \ELSE
-        \STATE $a = c$
-    \ENDIF
-\ENDWHILE
-\RETURN $c$
+    \WHILE{$a_2 - a_1 > tol_{dic}$}
+        \STATE $a_3 = (a_1 + a_2)/2$
+        \IF{$f(a_1) \cdot f(a_3) < 0$}
+            \STATE $a_2 = a_3$
+        \ELSE
+            \STATE $a_1 = a_3$
+        \ENDIF
+    \ENDWHILE
+    \RETURN $a_3$
 \end{algorithmic}
 \end{algorithm}
 
+
 \begin{equation}
-    c = 
-    \label{eq:res:c}
+    a_3 = 
+    \label{eq:res:a3}
 \end{equation}
+
 
 \section{C\'alculo de soluciones de $x^a + y^b = z^c$}
 
@@ -85,7 +87,7 @@ max = 10
 
 \begin{algorithm}
 \caption{N\'umero de soluciones}
-\label{alg:calc:numsols}
+\label{alg:calc:sols}
 \begin{algorithmic}
     \STATE sols = 0
     \STATE z = 1
@@ -117,7 +119,7 @@ max = 10
 
 \begin{algorithm}
 \caption{Ejemplo de un algoritmo con ELSIFs anidados}
-\label{alg:calc:Ejemplo con ELSIF}
+\label{alg:calc:j}
 \begin{algorithmic}
         \STATE $i = 10$
         \STATE $j = \sqrt{i^2 + 5}$
@@ -159,7 +161,10 @@ max = 10
 \section{C\'alculo: M\'etodo de Newton-Raphson}
 
 El m\'etodo de Newton-Raphson permite aproximar ra\'{\i}ces de funciones diferenciables
-mediante la iteraci\'on $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+mediante la iteraci\'on 
+\begin{equation}
+    x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
+\end{equation}
 Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx 1.259921$.
 
 \begin{equation}
@@ -184,6 +189,7 @@ Aplicamos el m\'etodo a $f(x) = x^3 - 2$, cuya ra\'{\i}z es $\sqrt[3]{2} \approx
 
 \begin{algorithm}
 \caption{M\'etodo de Newton-Raphson para $f(x) = x^3 - 2$}
+\label{alg:calc:x}
 \begin{algorithmic}
     \STATE $x = x_0$
     \WHILE{$\left|f(x)\right| > tol_{NR}$}
@@ -221,9 +227,9 @@ ecuaciones lineales. Aplicamos el m\'etodo al sistema:
 cuya soluci\'on exacta es $(x, y, z) = (2,1,1)$.
 
 Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
-\[
+\begin{equation}
     x_{n+1} = \frac{10 + y_n - z_n}{5}, \quad y_{n+1} = \frac{11 - 2\cdot x_n + z_n}{8}, \quad z_{n+1} = \frac{3 + x_n - y_n}{4}
-\]
+\end{equation}
 
 \begin{equation}
     x_j = 0
@@ -247,6 +253,7 @@ Las ecuaciones de actualizaci\'on de Jacobi para este sistema son:
 
 \begin{algorithm}
 \caption{M\'etodo de Jacobi para $5x-y+z = 10$, $2x+8y-z = 11$, $-x+y+4z = 3$}
+\label{alg:calc:x,y,z}
 \begin{algorithmic}
     \STATE $x = (10 + y_j - z_j)/5$
     \STATE $y = (11 - 2\cdot x_j + z_j)/8$
@@ -316,6 +323,7 @@ Evaluamos en $t = 1$, donde la soluci\'on exacta vale $e \approx 2.718282$.
 
 \begin{algorithm}
 \caption{M\'etodo de Euler para $y' = y$, $y(0) = 1$}
+\label{alg:calc:y}
 \begin{algorithmic}
     \STATE $t = 0$
     \STATE $y = y_0$
@@ -359,25 +367,20 @@ Calculamos $\binom{10}{3} = 120$ mediante el c\'alculo iterativo de factoriales.
 
 \begin{algorithm}
 \caption{C\'alculo de $\binom{n}{k}$ mediante factoriales iterativos}
+\label{alg:calc:nc}
 \begin{algorithmic}
     \STATE $fn = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq n$}
+    \FOR{$i = 1$ \TO $n$}
         \STATE $fn = fn \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $fk = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq k$}
+    \FOR{$i = 1$ \TO $k$}
         \STATE $fk = fk \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $fnk = 1$
-    \STATE $i = 1$
-    \WHILE{$i \leq n - k$}
+    \FOR{$i = 1$ \TO $n - k$}
         \STATE $fnk = fnk \cdot i$
-        \STATE $i = i + 1$
-    \ENDWHILE
+    \ENDFOR
     \STATE $nc = fn / (fk \cdot fnk)$
     \RETURN $nc$
 \end{algorithmic}
@@ -452,6 +455,7 @@ condiciones iniciales $x(0) = 10$, $y(0) = 5$, paso $h = 0.01$ y tiempo final $T
 
 \begin{algorithm}
 \caption{Euler expl\'{\i}cito para el sistema de Lotka-Volterra}
+\label{alg:calc:xlv}
 \begin{algorithmic}
     \STATE $t_{LV} = 0$
     \WHILE{$t_{LV} < T_{LV}$}
@@ -479,4 +483,3 @@ Las poblaciones aproximadas en $t = 10$ obtenidas por el m\'etodo de Euler son:
 
 
 \end{document}
-
