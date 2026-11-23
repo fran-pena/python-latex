@@ -426,6 +426,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion">Instalación</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uso">Uso</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-en-el-tex">Convenciones en el .tex</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables-con-require">Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo">Ejemplo</a></li>
 </ul>
             </nav>
@@ -459,13 +460,28 @@
 <ul class="simple">
 <li><p>Las ecuaciones con <code class="docutils literal notranslate"><span class="pre">\label{eq:calc:nombre}</span></code> se evalúan como cálculos.</p></li>
 <li><p>Las ecuaciones con <code class="docutils literal notranslate"><span class="pre">\label{eq:res:nombre}</span></code> se completan con el resultado.</p></li>
-<li><p>Los entornos <code class="docutils literal notranslate"><span class="pre">algorithmic</span></code> se ejecutan en el orden en que aparecen.</p></li>
+<li><p>Los algoritmos <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> sin <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> se ejecutan en el orden en que aparecen.</p></li>
 </ul>
+</section>
+<section id="algoritmos-reutilizables-con-require">
+<h2>Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code><a class="headerlink" href="#algoritmos-reutilizables-con-require" title="Link to this heading">#</a></h2>
+<p>Un algoritmo <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code> con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> define una función reutilizable en lugar
+de ejecutarse al aparecer. También puede declararse con <code class="docutils literal notranslate"><span class="pre">alg:def</span></code>; el nombre
+de la etiqueta identifica la función. Cada <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> indica sus argumentos
+posicionales y <code class="docutils literal notranslate"><span class="pre">\RETURN</span></code> debe indicar una única variable de salida. Para
+obtener un resultado, se llama a la función en una ecuación <code class="docutils literal notranslate"><span class="pre">eq:calc</span></code>.</p>
+<p>Por ejemplo, el <a class="reference download internal" download="" href="../_downloads/c7b24f34fb337826941f13286a30e2c6/secante_require.tex"><span class="xref download myst">método de la secante</span></a>
+define una función que se llama dos veces con funciones matemáticas distintas.
+La <a class="reference internal" href="../compylatex/docs/guia_de_uso.html"><span class="std std-doc">guía de uso</span></a> explica cómo declararla y
+utilizar sus resultados.</p>
+<p><strong>Compatibilidad:</strong> un <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code> que antes solo documentaba un <code class="docutils literal notranslate"><span class="pre">alg:calc</span></code>
+ahora lo convierte en función. Esos documentos necesitan una llamada explícita
+para ejecutar el algoritmo. <code class="docutils literal notranslate"><span class="pre">\ENSURE</span></code> sigue siendo exclusivamente documental.</p>
 </section>
 <section id="ejemplo">
 <h2>Ejemplo<a class="headerlink" href="#ejemplo" title="Link to this heading">#</a></h2>
 <p>Aquí se muestra el <a class="reference download internal" download="" href="../_downloads/66dd7a4ea7ce36cc4a20b6e478d78352/calculo.tex"><span class="xref download myst">documento LaTeX original</span></a> y su <a class="reference download internal" download="" href="../_downloads/454877338c2d9205feef2a6e72f7391a/calculo.pdf"><span class="xref download myst">compilación en PDF</span></a>.</p>
-<p>Aquí se muestra el <a class="reference internal" href="#../compylatex/examples/calculo_result.pdf"><span class="xref myst">resultado compilado en PDF</span></a>, tras usar el paquete <strong>compylatex</strong>.</p>
+<p>Aquí se muestra el <a class="reference download internal" download="" href="../_downloads/2224b6dfdbef960749d4b0e16836527e/procesado_calculo.pdf"><span class="xref download myst">resultado compilado en PDF</span></a>, tras usar el paquete <strong>compylatex</strong>.</p>
 </section>
 </section>
 
@@ -538,6 +554,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instalacion">Instalación</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uso">Uso</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convenciones-en-el-tex">Convenciones en el .tex</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmos-reutilizables-con-require">Algoritmos reutilizables con <code class="docutils literal notranslate"><span class="pre">\REQUIRE</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo">Ejemplo</a></li>
 </ul>
   </nav></div>
