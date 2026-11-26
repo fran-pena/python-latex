@@ -26,8 +26,8 @@ def replace_aliases(expr, namespace):
 
     for name in sorted_names:
         alias = names[name]   # alias que se le da en el namespace
-        expr = expr.replace(name, alias)
-
+        before_expr = r"(?<![A-Za-z0-9_\\])" if name[0].isalpha() else ""
+        expr = re.sub(before_expr + re.escape(name) + r"(?![A-Za-z0-9_])", lambda m: alias, expr) 
     return expr
 
 
@@ -96,7 +96,7 @@ def tex_to_python(expr):
     # -------------------------------------------------------------------
     # \sqrt[n]{x} → (x)**(1/n)
     expr = convert_nth_root(expr)
-    
+
     math_funcs = {
         r"\sqrt": "math.sqrt",
         r"\sin": "math.sin",

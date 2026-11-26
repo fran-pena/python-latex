@@ -33,7 +33,7 @@ def extract_text_from_node(node, cond = False):
                 else:
                     str += "{" + extract_inner_text_from_node(arg) + "}"
                 
-        return str 
+        return str + (node.macro_post_space or '') 
     # Nodos con subnodos
     if hasattr(node, 'nodelist'):
         str = extract_inner_text_from_node(node)
