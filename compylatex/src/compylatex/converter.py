@@ -46,6 +46,9 @@ def tex_to_python(expr):
     # Primero, eliminar espacios redundantes
     expr = expr.strip()
 
+    # quitar las llaves a los subíndices
+    expr = re.sub(r"_\{([A-Za-z0-9]+)\}", r"_\1", expr)
+
     #Eliminar para que no de problemas 
     expr = expr.replace(r"\left", "").replace(r"\right", "")
 

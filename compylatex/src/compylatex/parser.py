@@ -3,6 +3,12 @@ import re
 import keyword
 from pylatexenc.latexwalker import LatexEnvironmentNode
 
+def extract_inner_text_from_node(node):
+    """Extrae el texto de un nodo SIN sus delimitadores: para {x+1} devuelve x+1."""
+    if hasattr(node, 'nodelist'):
+        return ''.join(extract_text_from_node(sub) for sub in node.nodelist)
+    return extract_text_from_node(node)
+
 # Función para extraer recursivamente el texto de un nodelist
 def extract_text_from_node(node, cond = False): 
     """Extrae todo el texto de un nodo y sus subnodos recursivamente
@@ -20,30 +26,29 @@ def extract_text_from_node(node, cond = False):
                     continue
                 delimiters = getattr(arg, 'delimiters', None)
                 if delimiters and delimiters[0] == '[':
-                    str += "[" + extract_text_from_node(arg) + "]"
+                    str += "[" + extract_inner_text_from_node(arg) + "]"
                 elif delimiters and delimiters[0] == '(':
                 # Llamada a función: reconstruir con paréntesis sin backslash
                     str = node.macroname + "(" + extract_text_from_node(arg) + ")"
                 else:
-                    str += "{" + extract_text_from_node(arg) + "}"
+                    str += "{" + extract_inner_text_from_node(arg) + "}"
                 
         return str 
     # Nodos con subnodos
     if hasattr(node, 'nodelist'):
-        text_parts = []
-        for subnode in node.nodelist:
-            text_parts.append(extract_text_from_node(subnode))
-        str = ''.join(text_parts)
+        str = extract_inner_text_from_node(node)
         delimiters = getattr(node, 'delimiters', None)
+        if delimiters and delimiters[0] == '{':
+            str = "{" + str + "}"
         if delimiters and delimiters[0] == '(':
-            str = "(" + result + ")"
+            str = "(" + str + ")"
         if cond:
             str = str.replace("=", "==")
         return str
     if hasattr(node, 'argnlist'):
         text_parts = []
         for subnode in node.argnlist:
-            text_parts.append(extract_text_from_node(subnode)) 
+            text_parts.append(extract_inner_text_from_node(subnode)) 
         return ''.join(text_parts)
     else:
         return ""
@@ -186,20 +191,20 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
         nodelist = alg_node
 
     # Función para extraer el nombre de la(s) variable(s) de salida 
-    def _find_return_vars(nodelist, namespace):
+    def _find_return_vars(nodelist):
         """Extrae las variables del \\RETURN del algoritmo."""
         for i, node in enumerate(nodelist):
             if hasattr(node, "macroname") and node.macroname.upper() == "RETURN":
                 if i + 1 < len(nodelist):
-                    arg = extract_text_from_node(nodelist[i + 1])
-                    return [v.strip() for v in tex_to_python_with_alias(arg, namespace).split(",")]
+                    arg = extract_inner_text_from_node(nodelist[i + 1])
+                    return [v.strip() for v in arg.split(",")]
         return []
 
     # Registrar aliases del \label del algoritmo antes de parsear
     if start == 0 and algorithm_label:  # solo en la llamada raíz, no en recursiones
         parts = algorithm_label.split(":")
         # Buscar el \RETURN para obtener los nombres de variables
-        nameres = _find_return_vars(nodelist, namespace)
+        nameres = _find_return_vars(nodelist)
         aliases = [a.strip() for a in parts[2].split(",")]
         for name, alias in zip(nameres, aliases):
             namespace["__latex_alias__"][name] = alias
@@ -242,7 +247,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
                 # mirar siguiente nodo si existe
                 if (i + 1) < L:
                     nxt = nodelist[i + 1]
-                    arg = extract_text_from_node(nxt)
+                    arg = extract_inner_text_from_node(nxt)
                     i += 1  # consumimos el argumento
                     res = tex_to_python_with_alias(arg.strip(),namespace)
                 stmts.append({"type": "return", "expr": res})
@@ -336,7 +341,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
                 arg = ""
                 if (i + 1) < L:
                     nxt = nodelist[i + 1]
-                    arg = extract_text_from_node(nxt)
+                    arg = extract_inner_text_from_node(nxt)
                     i += 1
                 stmts.append({"type": "print", "expr": tex_to_python_with_alias(arg.strip(), namespace)})
                 continue
@@ -354,7 +359,7 @@ def parse_alg_block(alg_node, namespace, start=0, end_tokens=None, algorithm_lab
             elif name == "FOR":
                 #Si es \FOR, tratarlo como si fuera un \WHILE
                 nxt = nodelist[i + 1]
-                for_text = extract_text_from_node(nxt)
+                for_text = extract_inner_text_from_node(nxt)
                 # Parsear "i=1 to n" con regex
                 m = re.match(r'^\s*(\w+)\s*=\s*(.*?)\s*\\TO\s*(.*?)\s*$',for_text,re.IGNORECASE)
                 # print(m)
