@@ -43,7 +43,7 @@ def extract_text_from_node(node, cond = False):
         if delimiters and delimiters[0] == '(':
             str = "(" + str + ")"
         if cond:
-            str = str.replace("=", "==")
+            str = re.sub(r'(?<![<>=!:])=(?!=)', '==', str)
         return str
     if hasattr(node, 'argnlist'):
         text_parts = []
