@@ -34,6 +34,24 @@ def replace_aliases(expr, namespace):
 # -------------------------------------------------------------------
 # TRADUCIR EXPRESIONES LATEX
 # -------------------------------------------------------------------
+
+def convert_nth_root(expr):
+    """Convierte \\sqrt[n]{x} en ((x)**(1/(n))); el cuerpo puede llevar llaves dentro."""
+    while True:
+        m = re.search(r"\\sqrt\[([^\]]+)\]\{", expr)
+        if not m:
+            return expr
+        depth, i = 1, m.end()
+        while depth:                       # buscar la llave que cierra
+            if expr[i] == "{":
+                depth += 1
+            elif expr[i] == "}":
+                depth -= 1
+            i += 1
+        body = expr[m.end():i - 1]
+        expr = expr[:m.start()] + f"(({body})**(1/({m.group(1)})))" + expr[i:]
+
+    
 def tex_to_python(expr):
     """
     Convierte expresiones matemáticas en estilo LaTeX a expresiones válidas en Python,
@@ -77,11 +95,8 @@ def tex_to_python(expr):
     # 2. Funciones matemáticas
     # -------------------------------------------------------------------
     # \sqrt[n]{x} → (x)**(1/n)
-    expr = re.sub(
-    r'\\sqrt\[([^\]]+)\]\{(.+?)\}',
-    r'(\2)**(1/\1)',
-    expr
-    )
+    expr = convert_nth_root(expr)
+    
     math_funcs = {
         r"\sqrt": "math.sqrt",
         r"\sin": "math.sin",
