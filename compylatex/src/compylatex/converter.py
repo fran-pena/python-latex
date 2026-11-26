@@ -67,8 +67,8 @@ def tex_to_python(expr):
     # quitar las llaves a los subíndices
     expr = re.sub(r"_\{([A-Za-z0-9]+)\}", r"_\1", expr)
 
-    #Eliminar para que no de problemas 
-    expr = expr.replace(r"\left", "").replace(r"\right", "")
+    # Quitar \left y \right (solo las macros exactas)
+    expr = re.sub(r"\\(?:left|right)(?![A-Za-z])", "", expr)
 
     # -------------------------------------------------------------------
     # 1. Operadores relacionales

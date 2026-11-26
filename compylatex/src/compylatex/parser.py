@@ -27,9 +27,6 @@ def extract_text_from_node(node, cond = False):
                 delimiters = getattr(arg, 'delimiters', None)
                 if delimiters and delimiters[0] == '[':
                     str += "[" + extract_inner_text_from_node(arg) + "]"
-                elif delimiters and delimiters[0] == '(':
-                # Llamada a función: reconstruir con paréntesis sin backslash
-                    str = node.macroname + "(" + extract_text_from_node(arg) + ")"
                 else:
                     str += "{" + extract_inner_text_from_node(arg) + "}"
                 
@@ -40,8 +37,6 @@ def extract_text_from_node(node, cond = False):
         delimiters = getattr(node, 'delimiters', None)
         if delimiters and delimiters[0] == '{':
             str = "{" + str + "}"
-        if delimiters and delimiters[0] == '(':
-            str = "(" + str + ")"
         if cond:
             str = re.sub(r'(?<![<>=!:])=(?!=)', '==', str)
         return str
